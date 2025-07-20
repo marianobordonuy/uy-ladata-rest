@@ -1,0 +1,19 @@
+{
+    "gratis123": {
+      "plan": "free",
+      "limit": 50
+    },
+    "pro456": {
+      "plan": "pro",
+      "limit": 5000
+    },
+    "vip789": {
+      "plan": "vip",
+      "limit": 20000
+    },
+    "admin123": {
+        "plan": "vip",
+        "limit": 200000
+    }
+  }
+  

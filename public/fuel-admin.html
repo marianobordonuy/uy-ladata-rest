@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editor de Combustibles</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 500px; margin: auto; }
+    input, select { width: 100%; margin-bottom: 10px; padding: 8px; }
+    label { font-weight: bold; display: block; margin-top: 10px; }
+    button { padding: 10px 20px; cursor: pointer; }
+    pre { background: #f4f4f4; padding: 10px; white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+<body>
+  <h1>Actualizar precio de combustible</h1>
+
+  <form onsubmit="event.preventDefault(); updateFuel()">
+    <label for="fuel">Combustible:</label>
+    <select id="fuel" required>
+      <option value="super95">super95</option>
+      <option value="premium97">premium97</option>
+      <option value="gasoil10">gasoil10</option>
+      <option value="gasoil50">gasoil50</option>
+      <option value="queroseno">queroseno</option>
+    </select>
+
+    <label for="price">Precio por litro (UYU):</label>
+    <input type="number" id="price" step="0.01" required />
+
+    <label for="date">Fecha de actualización (ISO):</label>
+    <input type="datetime-local" id="date" />
+
+    <label for="apikey">API Key:</label>
+    <input type="password" id="apikey" placeholder="admin123" required />
+
+    <button type="submit">Actualizar</button>
+  </form>
+
+  <h3>Respuesta del servidor:</h3>
+  <pre id="output"></pre>
+
+  <script>
+    async function updateFuel() {
+      const fuel = document.getElementById('fuel').value;
+      const price = parseFloat(document.getElementById('price').value);
+      const date = document.getElementById('date').value;
+      const apikey = document.getElementById('apikey').value;
+      const output = document.getElementById('output');
+
+      if (!price || !apikey) {
+        output.textContent = "Precio o API key inválidos.";
+        return;
+      }
+
+      const body = { price };
+      if (date) body.last_updated = new Date(date).toISOString();
+
+      output.textContent = "Enviando...";
+
+      try {
+        const res = await fetch(`/api/fuel/${fuel}?apikey=${apikey}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+
+        const data = await res.json();
+        output.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        output.textContent = "Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>

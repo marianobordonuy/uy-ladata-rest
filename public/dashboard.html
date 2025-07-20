@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Comparador de Cotizaciones - uy-ladata</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #007bff;
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+    }
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.2em;
+    }
+    .card .price {
+      font-size: 1.4em;
+      margin: 5px 0;
+    }
+    .card small {
+      color: #777;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+    }
+    a.button {
+      display: inline-block;
+      background: #007bff;
+      color: white;
+      padding: 10px 15px;
+      margin-top: 10px;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+    a.button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Comparador de Cotizaciones USD/UYU</h1>
+  <p>Datos en tiempo real de bancos y casas de cambio en Uruguay</p>
+</header>
+
+<main>
+  <div class="grid" id="cards">
+    <p>Cargando cotizaciones...</p>
+  </div>
+
+  <div class="footer">
+    <p>¿Sos desarrollador?</p>
+    <a class="button" href="/docs.html">Usá la API →</a>
+  </div>
+</main>
+
+<script>
+    const apikey = "admin123";
+  
+    async function loadCotizaciones() {
+      const container = document.getElementById('cards');
+      container.innerHTML = "Cargando...";
+  
+      try {
+        const res = await fetch(`/api/currency/live?apikey=${apikey}`);
+        const data = await res.json();
+  
+        // Encontrar mejor precio de compra y venta
+        let bestBuy = null;
+        let bestSell = null;
+  
+        data.forEach(item => {
+          if (!bestBuy || item.buy > bestBuy.buy) bestBuy = item;
+          if (!bestSell || item.sell < bestSell.sell) bestSell = item;
+        });
+  
+        container.innerHTML = data.map(item => {
+          const isBestBuy = item.source === bestBuy.source;
+          const isBestSell = item.source === bestSell.source;
+  
+          return `
+            <div class="card">
+              <h2>${item.source}</h2>
+              <div class="price">
+                💰 Compra: <strong>${item.buy.toFixed(2)}</strong>
+                ${isBestBuy ? ' <span style="color:green;">⬆ mejor</span>' : ''}
+              </div>
+              <div class="price">
+                🪙 Venta: <strong>${item.sell.toFixed(2)}</strong>
+                ${isBestSell ? ' <span style="color:red;">⬇ mejor</span>' : ''}
+              </div>
+              <small>Actualizado: ${new Date(item.timestamp).toLocaleString()}</small>
+            </div>
+          `;
+        }).join('');
+      } catch (err) {
+        container.innerHTML = `<p>Error al cargar datos</p>`;
+      }
+    }
+  
+    loadCotizaciones();
+</script>  
+
+</body>
+</html>

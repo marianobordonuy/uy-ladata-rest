@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mini Swagger - uy-ladata</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+  <div class="max-w-3xl mx-auto p-6">
+    <h1 class="text-3xl font-bold text-blue-600 mb-2">Mini Swagger - uy-ladata API</h1>
+    <p class="text-sm text-gray-500 mb-8">Interactive API Tester</p>
+
+    <!-- Botón volver -->
+    <div class="mb-10">
+      <a href="/index.html" class="bg-gray-200 text-gray-700 px-4 py-2 rounded shadow hover:bg-gray-300 transition">
+        ← Volver al Inicio / Back to Home
+      </a>
+    </div>
+
+    <!-- Elegir banco -->
+    <div class="mb-10">
+      <h2 class="text-2xl font-semibold mb-1">Seleccionar Banco o Casa de Cambio</h2>
+      <p class="text-sm text-gray-500 mb-4">Select Bank or Exchange House</p>
+
+      <form onsubmit="event.preventDefault(); fetchBanco()" class="space-y-4">
+        <div>
+          <label class="font-semibold">Proveedor / Provider:</label>
+          <select id="banco" class="w-full p-2 rounded border" onchange="setSource()">
+            <option value="">Cargando bancos...</option>
+          </select>
+        </div>
+
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition">
+          Consultar Banco / Query Bank
+        </button>
+      </form>
+      <pre id="banco-output" class="bg-gray-100 p-3 mt-3 rounded"></pre>
+    </div>
+
+    <!-- Convertidor -->
+    <div class="mb-10">
+      <h2 class="text-2xl font-semibold mb-1">Conversor de Moneda</h2>
+      <p class="text-sm text-gray-500 mb-4">Currency Converter</p>
+
+      <form onsubmit="event.preventDefault(); convertCurrency()" class="space-y-4">
+        <div>
+          <label class="font-semibold">Monto / Amount:</label>
+          <input type="number" id="amount" value="100" required class="w-full p-2 rounded border" />
+        </div>
+
+        <div>
+          <label class="font-semibold">De / From:</label>
+          <select id="from" class="w-full p-2 rounded border">
+            <option value="USD">USD</option>
+            <option value="UYU">UYU</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="font-semibold">A / To:</label>
+          <select id="to" class="w-full p-2 rounded border">
+            <option value="UYU">UYU</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="font-semibold">Fuente / Source (auto-ajustada):</label>
+          <select id="source" class="w-full p-2 rounded border">
+            <option value="">Cargando fuentes...</option>
+          </select>
+        </div>
+
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition">
+          Convertir / Convert
+        </button>
+      </form>
+      <pre id="convert-output" class="bg-gray-100 p-3 mt-3 rounded"></pre>
+    </div>
+
+    <!-- Fuel section -->
+    <div class="mb-10">
+      <h2 class="text-2xl font-semibold mb-1">Consultar Precio de Combustible</h2>
+      <p class="text-sm text-gray-500 mb-4">Fuel Price Query</p>
+
+      <form onsubmit="event.preventDefault(); fetchFuel()" class="space-y-4">
+        <div>
+          <label class="font-semibold">Tipo de Combustible / Fuel Type:</label>
+          <select id="fuel" class="w-full p-2 rounded border">
+            <option value="super95">Super 95</option>
+            <option value="premium97">Premium 97</option>
+            <option value="gasoil10">Gasoil 10 ppm</option>
+            <option value="gasoil50">Gasoil 50 ppm</option>
+            <option value="queroseno">Kerosene</option>
+          </select>
+        </div>
+
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition">
+          Consultar Combustible / Query Fuel
+        </button>
+      </form>
+      <pre id="fuel-output" class="bg-gray-100 p-3 mt-3 rounded"></pre>
+    </div>
+
+  </div>
+
+  <script>
+    const apikey = "admin123";  // oculto para el usuario
+
+    async function loadBancos() {
+      const bancoSelect = document.getElementById('banco');
+      const sourceSelect = document.getElementById('source');
+      try {
+        const res = await fetch(`/api/currency/all?apikey=${apikey}`);
+        const data = await res.json();
+
+        bancoSelect.innerHTML = "";
+        sourceSelect.innerHTML = "";
+
+        data.forEach(item => {
+          const optBanco = document.createElement("option");
+          optBanco.value = item.source;
+          optBanco.text = item.source;
+          bancoSelect.appendChild(optBanco);
+
+          const optSource = document.createElement("option");
+          optSource.value = item.source;
+          optSource.text = item.source;
+          sourceSelect.appendChild(optSource);
+        });
+
+        setSource();
+
+      } catch (err) {
+        bancoSelect.innerHTML = `<option>Error al cargar bancos</option>`;
+        sourceSelect.innerHTML = `<option>Error al cargar fuentes</option>`;
+      }
+    }
+
+    function setSource() {
+      const banco = document.getElementById('banco').value;
+      document.getElementById('source').value = banco;
+    }
+
+    async function fetchBanco() {
+      const banco = document.getElementById('banco').value;
+      const out = document.getElementById('banco-output');
+      out.textContent = 'Cargando... / Loading...';
+
+      try {
+        const res = await fetch(`/api/currency/${banco}?apikey=${apikey}`);
+        const data = await res.json();
+        out.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        out.textContent = 'Error: ' + err.message;
+      }
+    }
+
+    async function convertCurrency() {
+      const amount = document.getElementById('amount').value;
+      const from = document.getElementById('from').value;
+      const to = document.getElementById('to').value;
+      const source = document.getElementById('source').value;
+      const out = document.getElementById('convert-output');
+
+      out.textContent = 'Cargando... / Loading...';
+      try {
+        const res = await fetch(`/api/convert?amount=${amount}&from=${from}&to=${to}&source=${source}&apikey=${apikey}`);
+        const data = await res.json();
+        out.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        out.textContent = 'Error: ' + err.message;
+      }
+    }
+
+    async function fetchFuel() {
+      const fuel = document.getElementById('fuel').value;
+      const out = document.getElementById('fuel-output');
+      out.textContent = 'Cargando... / Loading...';
+
+      try {
+        const res = await fetch(`/api/fuel?apikey=${apikey}`);
+        const data = await res.json();
+        const fuelData = data[fuel];
+        out.textContent = JSON.stringify(fuelData, null, 2);
+      } catch (err) {
+        out.textContent = 'Error: ' + err.message;
+      }
+    }
+
+    window.onload = () => {
+      loadBancos();
+    };
+  </script>
+</body>
+</html>

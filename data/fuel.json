@@ -1,0 +1,86 @@
+{
+  "super95": {
+    "international_name": "Gasoline Regular (RON 95)",
+    "type": "gasoline",
+    "octane_rating": 95,
+    "prices": {
+      "L": {
+        "price": 78.47,
+        "currency": "UYU"
+      },
+      "gal": {
+        "price": 296.91,
+        "currency": "UYU"
+      }
+    },
+    "last_updated": "2025-06-01T00:00:00-03:00",
+    "source": "ANCAP"
+  },
+  "premium97": {
+    "international_name": "Gasoline Premium (RON 97)",
+    "type": "gasoline",
+    "octane_rating": 97,
+    "prices": {
+      "L": {
+        "price": 80.87,
+        "currency": "UYU"
+      },
+      "gal": {
+        "price": 306.09,
+        "currency": "UYU"
+      }
+    },
+    "last_updated": "2025-06-01T00:00:00-03:00",
+    "source": "ANCAP"
+  },
+  "gasoil10": {
+    "international_name": "Diesel (10 ppm Sulfur)",
+    "type": "diesel",
+    "sulfur_content": "10 ppm",
+    "prices": {
+      "L": {
+        "price": 54.03,
+        "currency": "UYU"
+      },
+      "gal": {
+        "price": 204.52,
+        "currency": "UYU"
+      }
+    },
+    "last_updated": "2025-06-01T00:00:00-03:00",
+    "source": "ANCAP"
+  },
+  "gasoil50": {
+    "international_name": "Diesel (50 ppm Sulfur)",
+    "type": "diesel",
+    "sulfur_content": "50 ppm",
+    "prices": {
+      "L": {
+        "price": 47.03,
+        "currency": "UYU"
+      },
+      "gal": {
+        "price": 178.09,
+        "currency": "UYU"
+      }
+    },
+    "last_updated": "2025-06-01T00:00:00-03:00",
+    "source": "ANCAP"
+  },
+  "queroseno": {
+    "international_name": "Kerosene",
+    "type": "kerosene",
+    "prices": {
+      "L": {
+        "price": 54.4,
+        "currency": "UYU"
+      },
+      "gal": {
+        "price": 205.94,
+        "currency": "UYU"
+      }
+    },
+    "last_updated": "2025-06-01T00:00:00-03:00",
+    "source": "ANCAP"
+  }
+}
