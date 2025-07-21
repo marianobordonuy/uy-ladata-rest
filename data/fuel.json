@@ -5,15 +5,15 @@
     "octane_rating": 95,
     "prices": {
       "L": {
-        "price": 78.47,
+        "price": 78.72,
         "currency": "UYU"
       },
       "gal": {
-        "price": 296.91,
+        "price": 297.91,
         "currency": "UYU"
       }
     },
-    "last_updated": "2025-06-01T00:00:00-03:00",
+    "last_updated": "2025-07-01T00:00:00-03:00",
     "source": "ANCAP"
   },
   "premium97": {
@@ -22,15 +22,15 @@
     "octane_rating": 97,
     "prices": {
       "L": {
-        "price": 80.87,
+        "price": 81.13,
         "currency": "UYU"
       },
       "gal": {
-        "price": 306.09,
+        "price": 306.91,
         "currency": "UYU"
       }
     },
-    "last_updated": "2025-06-01T00:00:00-03:00",
+    "last_updated": "2025-07-01T00:00:00-03:00",
     "source": "ANCAP"
   },
   "gasoil10": {
@@ -39,15 +39,15 @@
     "sulfur_content": "10 ppm",
     "prices": {
       "L": {
-        "price": 54.03,
+        "price": 55.08,
         "currency": "UYU"
       },
       "gal": {
-        "price": 204.52,
+        "price": 204.41,
         "currency": "UYU"
       }
     },
-    "last_updated": "2025-06-01T00:00:00-03:00",
+    "last_updated": "2025-07-01T00:00:00-03:00",
     "source": "ANCAP"
   },
   "gasoil50": {
@@ -56,15 +56,15 @@
     "sulfur_content": "50 ppm",
     "prices": {
       "L": {
-        "price": 47.03,
+        "price": 48.08,
         "currency": "UYU"
       },
       "gal": {
-        "price": 178.09,
+        "price": 182.05,
         "currency": "UYU"
       }
     },
-    "last_updated": "2025-06-01T00:00:00-03:00",
+    "last_updated": "2025-07-01T00:00:00-03:00",
     "source": "ANCAP"
   },
   "queroseno": {
@@ -72,15 +72,15 @@
     "type": "kerosene",
     "prices": {
       "L": {
-        "price": 54.4,
+        "price": 53.34,
         "currency": "UYU"
       },
       "gal": {
-        "price": 205.94,
+        "price": 201.94,
         "currency": "UYU"
       }
     },
-    "last_updated": "2025-06-01T00:00:00-03:00",
+    "last_updated": "2025-07-01T00:00:00-03:00",
     "source": "ANCAP"
   }
 }
