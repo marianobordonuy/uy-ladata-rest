@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
   try {
     const data = await scraper();
 
-    // Conversión: asumimos USD→UYU si `from=USD` y `to=UYU`
+    // Conversión: USD→UYU si `from=USD` y `to=UYU`
     let rate;
     if (from === 'USD' && to === 'UYU') {
       rate = data.sell;

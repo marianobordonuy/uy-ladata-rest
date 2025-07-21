@@ -8,8 +8,7 @@
 <body class="bg-gray-50 text-gray-800 font-sans">
 
   <div class="max-w-3xl mx-auto p-6">
-    <h1 class="text-3xl font-bold text-blue-600 mb-2">Mini Swagger - uy-ladata API</h1>
-    <p class="text-sm text-gray-500 mb-8">Interactive API Tester</p>
+    <h1 class="text-3xl font-bold text-blue-600 mb-8">Mini Swagger - uy-ladata API</h1>
 
     <!-- Botón volver -->
     <div class="mb-10">
@@ -18,31 +17,55 @@
       </a>
     </div>
 
-    <!-- Elegir banco -->
-    <div class="mb-10">
-      <h2 class="text-2xl font-semibold mb-1">Seleccionar Banco o Casa de Cambio</h2>
-      <p class="text-sm text-gray-500 mb-4">Select Bank or Exchange House</p>
+    <!-- API KEY FIJA
+    <div class="mb-8">
+      <p class="text-gray-600 text-sm mb-2">Using API Key: <code class="bg-gray-100 px-2 py-1 rounded">admin123</code></p>
+    </div>
+    -->
 
+    <!-- /api/currency/live 
+    <div class="mb-10">
+      <h2 class="text-2xl font-semibold mb-2">/api/currency/live</h2>
+      <button onclick="fetchLive()" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition">
+        Probar Live
+      </button>
+      <pre id="live-output" class="bg-gray-100 p-3 mt-3 rounded"></pre>
+    </div>
+    -->
+
+        <!-- /api/currency/{banco} -->
+    <div class="mb-10">
+      <h2 class="text-2xl font-semibold mb-1">Cotizacion actualizada</h2>
+      <p class="text-sm text-gray-500 mb-4">Real-time Currency Rate</p>
+
+      <h3 class="text-2xl font-semibold mb-2">/api/currency/&lt;banco&gt;</h3>
       <form onsubmit="event.preventDefault(); fetchBanco()" class="space-y-4">
         <div>
-          <label class="font-semibold">Proveedor / Provider:</label>
-          <select id="banco" class="w-full p-2 rounded border" onchange="setSource()">
-            <option value="">Cargando bancos...</option>
+          <label class="font-semibold">Seleccionar Banco o Casa/Select Bank or Exchange:</label>
+          <select id="banco" class="w-full p-2 rounded border">
+            <option value="itau">itau</option>
+            <option value="alter">alter</option>
+            <option value="aeromar">aeromar</option>
+            <option value="delta">delta</option>
+            <option value="gales">gales</option>
           </select>
+          <p>No todas las fuentes estan disponibles para pruebas.</p>
+          <p class="text-sm text-gray-500 mb-4">Not all sources are available for testing.</p>
         </div>
 
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition">
-          Consultar Banco / Query Bank
+          Consultar Cotizacion / Query Exchange Rate
         </button>
       </form>
       <pre id="banco-output" class="bg-gray-100 p-3 mt-3 rounded"></pre>
     </div>
 
-    <!-- Convertidor -->
+    <!-- /api/convert -->
     <div class="mb-10">
-      <h2 class="text-2xl font-semibold mb-1">Conversor de Moneda</h2>
-      <p class="text-sm text-gray-500 mb-4">Currency Converter</p>
+      <h2 class="text-2xl font-semibold mb-1">Conversión de divisas</h2>
+      <p class="text-sm text-gray-500 mb-4">Currency conversion</p>
 
+      <h3 class="text-2xl font-semibold mb-2">/api/convert</h3>
       <form onsubmit="event.preventDefault(); convertCurrency()" class="space-y-4">
         <div>
           <label class="font-semibold">Monto / Amount:</label>
@@ -66,10 +89,16 @@
         </div>
 
         <div>
-          <label class="font-semibold">Fuente / Source (auto-ajustada):</label>
+          <label class="font-semibold">Fuente / Source:</label>
           <select id="source" class="w-full p-2 rounded border">
-            <option value="">Cargando fuentes...</option>
+            <option value="itau">itau</option>
+            <option value="alter">alter</option>
+            <option value="aeromar">aeromar</option>
+            <option value="delta">delta</option>
+            <option value="gales">gales</option>
           </select>
+          <p>No todas las fuentes estan disponibles para pruebas.</p>
+          <p class="text-sm text-gray-500 mb-4">Not all sources are available for testing.</p>
         </div>
 
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition">
@@ -106,47 +135,43 @@
   </div>
 
   <script>
-    const apikey = "admin123";  // oculto para el usuario
+    const apikey = "admin123";
 
-    async function loadBancos() {
-      const bancoSelect = document.getElementById('banco');
-      const sourceSelect = document.getElementById('source');
+    /* async function fetchLive() {
+      const out = document.getElementById('live-output');
+      out.textContent = 'Cargando...';
+
       try {
-        const res = await fetch(`/api/currency/all?apikey=${apikey}`);
+        const res = await fetch(`/api/currency/live?apikey=${apikey}`);
         const data = await res.json();
-
-        bancoSelect.innerHTML = "";
-        sourceSelect.innerHTML = "";
-
-        data.forEach(item => {
-          const optBanco = document.createElement("option");
-          optBanco.value = item.source;
-          optBanco.text = item.source;
-          bancoSelect.appendChild(optBanco);
-
-          const optSource = document.createElement("option");
-          optSource.value = item.source;
-          optSource.text = item.source;
-          sourceSelect.appendChild(optSource);
-        });
-
-        setSource();
-
+        out.textContent = JSON.stringify(data, null, 2);
       } catch (err) {
-        bancoSelect.innerHTML = `<option>Error al cargar bancos</option>`;
-        sourceSelect.innerHTML = `<option>Error al cargar fuentes</option>`;
+        out.textContent = 'Error: ' + err.message;
       }
     }
+    */
 
-    function setSource() {
-      const banco = document.getElementById('banco').value;
-      document.getElementById('source').value = banco;
+    async function convertCurrency() {
+      const amount = document.getElementById('amount').value;
+      const from = document.getElementById('from').value;
+      const to = document.getElementById('to').value;
+      const source = document.getElementById('source').value;
+      const out = document.getElementById('convert-output');
+
+      out.textContent = 'Cargando...';
+      try {
+        const res = await fetch(`/api/convert?amount=${amount}&from=${from}&to=${to}&source=${source}&apikey=${apikey}`);
+        const data = await res.json();
+        out.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        out.textContent = 'Error: ' + err.message;
+      }
     }
 
     async function fetchBanco() {
       const banco = document.getElementById('banco').value;
       const out = document.getElementById('banco-output');
-      out.textContent = 'Cargando... / Loading...';
+      out.textContent = 'Cargando...';
 
       try {
         const res = await fetch(`/api/currency/${banco}?apikey=${apikey}`);
@@ -157,24 +182,7 @@
       }
     }
 
-    async function convertCurrency() {
-      const amount = document.getElementById('amount').value;
-      const from = document.getElementById('from').value;
-      const to = document.getElementById('to').value;
-      const source = document.getElementById('source').value;
-      const out = document.getElementById('convert-output');
-
-      out.textContent = 'Cargando... / Loading...';
-      try {
-        const res = await fetch(`/api/convert?amount=${amount}&from=${from}&to=${to}&source=${source}&apikey=${apikey}`);
-        const data = await res.json();
-        out.textContent = JSON.stringify(data, null, 2);
-      } catch (err) {
-        out.textContent = 'Error: ' + err.message;
-      }
-    }
-
-    async function fetchFuel() {
+        async function fetchFuel() {
       const fuel = document.getElementById('fuel').value;
       const out = document.getElementById('fuel-output');
       out.textContent = 'Cargando... / Loading...';
@@ -189,9 +197,6 @@
       }
     }
 
-    window.onload = () => {
-      loadBancos();
-    };
   </script>
 </body>
 </html>
