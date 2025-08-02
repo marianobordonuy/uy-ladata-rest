@@ -2,23 +2,24 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>uy-ladata API</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
 
-  <header class="bg-blue-600 text-white py-10 text-center">
-    <h1 class="text-3xl font-bold">uy-ladata API</h1>
-    <p class="mt-2 text-lg">Cotizaciones y combustibles de Uruguay — Uruguay FX & Fuel API</p>
+  <header class="bg-blue-600 text-white py-10 text-center px-4">
+    <h1 class="text-3xl sm:text-4xl font-bold">uy-ladata API</h1>
+    <p class="mt-2 text-base sm:text-lg">Cotizaciones y combustibles de Uruguay — Uruguay FX & Fuel API</p>
   </header>
 
-  <main class="max-w-4xl mx-auto py-10 px-6">
+  <main class="max-w-4xl mx-auto py-10 px-4 sm:px-6">
     <!-- Que ofrece -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold mb-1">📡 ¿Qué ofrece?</h2>
+      <h2 class="text-xl sm:text-2xl font-semibold mb-1">📡 ¿Qué ofrece?</h2>
       <p class="text-sm text-gray-500 mb-4">Features</p>
-      <ul class="list-disc pl-6 space-y-2">
-        <li>💵 Cotizaciones USD/UYU en tiempo real desde múltiples fuentes (Real-time FX rates from local banks & exchanges)</li>
+      <ul class="list-disc pl-5 space-y-2 text-base">
+        <li>💵 Cotizaciones USD/UYU en tiempo real desde múltiples fuentes (Real-time FX rates)</li>
         <li>⛽ Precios oficiales de combustibles ANCAP (Official fuel prices)</li>
         <li>🔁 Conversor de divisas USD ⇄ UYU (Currency conversion)</li>
       </ul>
@@ -26,64 +27,63 @@
 
     <!-- Endpoints -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold mb-1">📘 Endpoints principales</h2>
+      <h2 class="text-xl sm:text-2xl font-semibold mb-1">📘 Endpoints principales</h2>
       <p class="text-sm text-gray-500 mb-4">Main Endpoints</p>
-      <ul class="list-disc pl-6 space-y-2">
-        <li><code class="bg-gray-100 px-2 py-1 rounded">GET /api/currency/all</code> – Lista de fuentes disponibles (All available providers)</li>
-        <li><code class="bg-gray-100 px-2 py-1 rounded">GET /api/currency/live</code> – Cotizaciones actualizadas (Real-time data)</li>
-        <li><code class="bg-gray-100 px-2 py-1 rounded">GET /api/convert</code> – Conversión de divisas (Currency conversion)</li>
-        <li><code class="bg-gray-100 px-2 py-1 rounded">GET /api/fuel</code> – Precios actuales de combustibles (Fuel prices)</li>
+      <ul class="list-disc pl-5 space-y-3 text-base">
+        <li><code class="bg-gray-100 px-2 py-1 rounded">GET /api/currency/all</code> – Lista de fuentes (All providers)</li>
+        <li><code class="bg-gray-100 px-2 py-1 rounded">GET /api/currency/live</code> – Cotizaciones actualizadas</li>
+        <li><code class="bg-gray-100 px-2 py-1 rounded">GET /api/convert</code> – Conversión de divisas</li>
+        <li><code class="bg-gray-100 px-2 py-1 rounded">GET /api/fuel</code> – Precios de combustibles</li>
       </ul>
     </section>
 
     <!-- Uso API Key -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold mb-1">🔐 Uso con API Key</h2>
+      <h2 class="text-xl sm:text-2xl font-semibold mb-1">🔐 Uso con API Key</h2>
       <p class="text-sm text-gray-500 mb-4">Usage with API Key</p>
       <p class="mb-3">Incluí tu API key en cada request como parámetro:</p>
-      <pre class="bg-gray-100 p-3 rounded mb-3">GET /api/currency/live?apikey=your_key</pre>
+      <pre class="bg-gray-100 p-3 rounded mb-3 text-xs sm:text-sm overflow-x-auto">GET /api/currency/live?apikey=your_key</pre>
       <p>Ejemplo con <code class="bg-gray-100 px-2 py-1 rounded">curl</code>:</p>
-      <pre class="bg-gray-100 p-3 rounded">
+      <pre class="bg-gray-100 p-3 rounded text-xs sm:text-sm overflow-x-auto">
 curl "https://yourapi.com/api/convert?amount=100&amp;from=USD&amp;to=UYU&amp;source=itau&amp;apikey=your_key"
       </pre>
     </section>
 
     <!-- Swagger -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold mb-1">📄 Documentación interactiva</h2>
-      <p class="text-sm text-gray-500 mb-4">Interactive Docs (Swagger-like)</p>
+      <h2 class="text-xl sm:text-2xl font-semibold mb-1">📄 Documentación interactiva</h2>
+      <p class="text-sm text-gray-500 mb-2">Interactive Docs (Swagger-like)</p>
       <p>Podés probar todos los endpoints directamente desde el navegador:</p>
-      <p class="text-sm text-gray-500 mb-4">You can try all endpoints diectly from your browser:</p>
-      <a href="/docs.html" class="inline-block mt-4 px-5 py-3 bg-blue-600 text-white rounded shadow hover:bg-blue-700 transition">
-        Ir al Swagger UI / Go to Swagger UI
+      <p class="text-sm text-gray-500 mb-4">You can try all endpoints directly from your browser:</p>
+      <a href="/docs.html" class="block w-full sm:w-auto text-center mt-4 px-5 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
+        📄 Ir al Swagger UI
       </a>
     </section>
 
     <!-- LINK -->
-     <section class="mb-10">
-        <h2 class="text-2xl font-semibold mb-1">💰 Calculadore de Cambio Itau/Link </h2>
-        <p class="text-sm text-gray-500 mb-4">Comparador promedio Link</p>
-        <a href="link.html" class="inline-block mt-4 px-5 py-3 bg-blue-600 text-white rounded shadow hover:bg-blue-700 transition">
-      💵 Ir a la Calculadora Link
-          </a>
-     </section>
+    <section class="mb-10">
+      <h2 class="text-xl sm:text-2xl font-semibold mb-1">💰 Calculadora de Cambio Itau/Link</h2>
+      <p class="text-sm text-gray-500 mb-4">Comparador promedio Link</p>
+      <a href="link.html" class="block w-full sm:w-auto text-center mt-4 px-5 py-3 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition">
+        💵 Ir a la Calculadora Link
+      </a>
+    </section>
 
     <!-- Solicitar acceso -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold mb-1">🚀 Solicitar acceso</h2>
+      <h2 class="text-xl sm:text-2xl font-semibold mb-1">🚀 Solicitar acceso</h2>
       <p class="text-sm text-gray-500 mb-4">Request Access</p>
       <p>Escribinos para obtener tu API key personalizada:</p>
-      <p class="text-sm text-gray-500 mb-4">Write me to get your personalaized API key:</p>
-      <a href="mailto:api@usd.uy?subject=Acceso%20a%20la%20API" class="inline-block mt-4 px-5 py-3 bg-blue-600 text-white rounded shadow hover:bg-blue-700 transition">
-        Solicitar por correo / Request by email
+      <p class="text-sm text-gray-500 mb-4">Write me to get your personalized API key:</p>
+      <a href="mailto:api@usd.uy?subject=Acceso%20a%20la%20API" class="block w-full sm:w-auto text-center mt-4 px-5 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
+        📧 Solicitar por correo
       </a>
     </section>
 
   </main>
 
-  <footer class="text-center text-sm text-gray-500 py-6">
-    &copy; 2025 usd.uy — hecho en Uruguay 🇺🇾 —
-    <br> api@usd.uy
+  <footer class="text-center text-xs sm:text-sm text-gray-500 py-6">
+    &copy; 2025 usd.uy — hecho en Uruguay 🇺🇾 — api@usd.uy
   </footer>
 
 </body>

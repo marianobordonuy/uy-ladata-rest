@@ -2,39 +2,44 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calculadora de Cambio</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
 
-  <div class="max-w-md mx-auto p-6 mt-10 bg-white rounded shadow">
-    <h1 class="text-2xl font-bold text-center text-blue-600">Calculadora de Cambio</h1>
-    <p class="text-center text-sm text-gray-500 mb-6">Basado en la media de Itau Link</p>
+  <div class="max-w-lg w-full mx-auto px-4 sm:px-6 mt-10">
+    <div class="bg-white rounded-lg shadow p-6 sm:p-8">
+      <h1 class="text-2xl sm:text-3xl font-bold text-center text-blue-600">Calculadora de Cambio</h1>
+      <p class="text-center text-sm sm:text-base text-gray-500 mb-6">Basado en la media de Itau Link</p>
 
-    <div class="mb-4">
-      <label class="block font-semibold mb-1">Monto en USD</label>
-      <input id="usd-amount" type="number" value="100" class="w-full p-2 border rounded" />
+      <div class="mb-4">
+        <label class="block font-semibold mb-1 text-sm sm:text-base">Monto en USD</label>
+        <input id="usd-amount" type="number" value="100"
+          class="w-full p-3 text-lg border rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
+
+      <button onclick="calcular()"
+        class="w-full bg-blue-600 text-white text-lg py-3 rounded-lg hover:bg-blue-700 transition">
+        Calcular
+      </button>
+
+      <div id="result" class="mt-6 text-center text-base sm:text-lg"></div>
+
+      <!-- Botón volver -->
+      <div class="mt-6">
+        <a href="index.html"
+          class="block text-center bg-gray-200 text-gray-800 py-3 rounded-lg hover:bg-gray-300 transition">
+          ⬅️ Volver al Inicio
+        </a>
+      </div>
+
+      <!-- Descargo -->
+      <div class="mt-6 text-xs sm:text-sm text-gray-500 text-center border-t pt-4 leading-snug">
+        ⚠️ <strong>Descargo:</strong> La información proporcionada es de carácter informativo.<br />
+        No nos hacemos responsables por el uso de los datos ni por decisiones financieras basadas en ellos.
+      </div>
     </div>
-
-    <button onclick="calcular()" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-      Calcular
-    </button>
-
-    <div id="result" class="mt-6 text-center"></div>
-
-    <!-- Botón volver -->
-    <div class="mt-6">
-      <a href="index.html" class="block text-center bg-gray-200 text-gray-800 py-2 rounded hover:bg-gray-300">
-        ⬅️ Volver al Inicio
-      </a>
-    </div>
-
-    <!-- Descargo -->
-    <div class="mt-6 text-xs text-gray-500 text-center border-t pt-4">
-      ⚠️ <strong>Descargo:</strong> La información proporcionada es de carácter informativo.  
-      No nos hacemos responsables por el uso de los datos ni por decisiones financieras basadas en ellos.
-    </div>
-
   </div>
 
   <script>
@@ -63,19 +68,19 @@
         resultadoTexto = `${montoUSD} USD → ${pesosMedia} UYU (Media Link ${data.media.toFixed(2)})`;
 
         resultDiv.innerHTML = `
-          <p class="text-lg">Media actual: <strong>${data.media.toFixed(2)} UYU</strong></p>
-          <p class="text-lg">${montoUSD} USD → <strong>${pesosMedia} UYU</strong></p>
+          <p class="text-lg sm:text-xl">Media actual: <strong>${data.media.toFixed(2)} UYU</strong></p>
+          <p class="text-lg sm:text-xl">${montoUSD} USD → <strong>${pesosMedia} UYU</strong></p>
           <p class="text-sm text-gray-600">Compra: ${data.buy} | Venta: ${data.sell}</p>
           <p class="mt-2 text-green-600 font-semibold">
             💰 Beneficio: ${beneficio} UYU (${porcentaje}% mejor que la compra normal)
           </p>
           <p class="text-xs text-gray-500 mt-2">Última actualización: ${new Date(data.timestamp).toLocaleString()}</p>
 
-          <div class="mt-4 flex flex-col gap-2">
-            <button onclick="compartirWhatsApp()" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
+          <div class="mt-4 flex flex-col gap-3">
+            <button onclick="compartirWhatsApp()" class="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600">
               📲 Compartir en WhatsApp
             </button>
-            <button onclick="copiarResultado()" class="w-full bg-gray-200 text-gray-800 py-2 rounded hover:bg-gray-300">
+            <button onclick="copiarResultado()" class="w-full bg-gray-200 text-gray-800 py-3 rounded-lg hover:bg-gray-300">
               📋 Copiar Resultado
             </button>
           </div>
