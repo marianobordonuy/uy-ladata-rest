@@ -1,63 +1,93 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Panel de Administración</title>
-  <style>
-    body { font-family: sans-serif; background: #f4f4f4; padding: 30px; text-align: center; }
-    h1 { margin-bottom: 40px; }
-    .card {
-      display: inline-block;
-      background: white;
-      padding: 20px 30px;
-      margin: 10px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      text-align: left;
-      width: 250px;
-    }
-    .card h2 {
-      font-size: 1.3em;
-      margin-bottom: 10px;
-    }
-    .card p {
-      font-size: 0.95em;
-      color: #555;
-    }
-    a.button {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 10px 15px;
-      background: #007bff;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-    a.button:hover {
-      background: #0056b3;
-    }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <script>
-        const password = prompt("Ingrese la contraseña del panel:");
-        if (password !== "admin123") {
-          document.body.innerHTML = "<h2 style='text-align:center; margin-top:100px;'>⛔ Acceso denegado</h2>";
-          throw new Error("Acceso bloqueado");
+<body class="bg-gray-100 font-sans">
+
+  <div id="app" class="flex items-center justify-center min-h-screen px-4"></div>
+
+  <script>
+    const app = document.getElementById("app");
+    // Hash SHA-256 real de "admin123"
+    const correctHash = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9";
+
+    async function sha256(text) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(text);
+      const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    if (localStorage.getItem("adminLogged") === "true") {
+      renderAdminPanel();
+    } else {
+      renderLogin();
+    }
+
+    function renderLogin() {
+      app.innerHTML = `
+        <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-sm text-center">
+          <h1 class="text-2xl font-bold text-blue-600 mb-4">🔐 Admin Panel</h1>
+          <p class="text-gray-600 mb-4">Ingrese la contraseña para acceder</p>
+          <input id="password" type="password" placeholder="Contraseña" class="w-full p-2 border rounded mb-4 focus:ring-2 focus:ring-blue-400" />
+          <button id="loginBtn" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Ingresar</button>
+          <div id="errorMsg" class="text-red-500 text-sm mt-3 hidden">⛔ Contraseña incorrecta</div>
+          <div class="mt-4">
+            <a href="/index.html" class="block bg-gray-200 text-gray-800 py-2 rounded-lg hover:bg-gray-300">⬅️ Volver al Inicio</a>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("loginBtn").addEventListener("click", async () => {
+        const password = document.getElementById("password").value;
+        const hash = await sha256(password);
+
+        if (hash === correctHash) {
+          localStorage.setItem("adminLogged", "true");
+          renderAdminPanel();
+        } else {
+          document.getElementById("errorMsg").classList.remove("hidden");
         }
-    </script>
-  <h1>Panel de Administración API</h1>
+      });
+    }
 
-  <div class="card">
-    <h2>Editor de Combustibles</h2>
-    <p>Actualizar precios en pesos por litro y fecha. Conversión automática a galones.</p>
-    <a href="/fuel-admin.html" class="button">Ir al Editor</a>
-  </div>
+    function renderAdminPanel() {
+      app.innerHTML = `
+        <div class="py-10 text-center px-4">
+          <h1 class="text-3xl font-bold text-blue-600 mb-8">Panel de Administración API</h1>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
 
-  <div class="card">
-    <h2>Probar Endpoints</h2>
-    <p>Mini Swagger para probar `live`, `convert`, `currency/all` y más.</p>
-    <a href="/docs.html" class="button">Ir al Swagger</a>
-  </div>
+            <div class="bg-white shadow rounded-lg p-6 text-left">
+              <h2 class="text-xl font-semibold mb-2">Editor de Combustibles</h2>
+              <p class="text-gray-600 mb-4">Actualizar precios en pesos por litro y fecha. Conversión automática a galones.</p>
+              <a href="/fuel-admin.html" class="block text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Ir al Editor</a>
+            </div>
+
+            <div class="bg-white shadow rounded-lg p-6 text-left">
+              <h2 class="text-xl font-semibold mb-2">Dashboard</h2>
+              <p class="text-gray-600 mb-4">Mini dashboard para obtener todas las cotizaciones y visualizar la mejor en una misma llamada/web.</p>
+              <a href="/dashboard.html" class="block text-center bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">Ir al Dashboard</a>
+            </div>
+
+          </div>
+
+          <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+            <a href="/index.html" class="inline-block bg-gray-200 text-gray-800 px-5 py-2 rounded-lg hover:bg-gray-300">⬅️ Volver al Inicio</a>
+            <button id="logoutBtn" class="inline-block bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600">🔓 Cerrar Sesión</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.removeItem("adminLogged");
+        renderLogin();
+      });
+    }
+  </script>
+</body>
 </html>
