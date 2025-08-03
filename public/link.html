@@ -10,31 +10,36 @@
 
   <div class="max-w-lg w-full mx-auto px-4 sm:px-6 mt-10">
     <div class="bg-white rounded-lg shadow p-6 sm:p-8">
-      <h1 class="text-2xl sm:text-3xl font-bold text-center text-blue-600">Calculadora de Cambio Preferencial Promedio - CPP</h1>
+      <h1 class="text-2xl sm:text-3xl font-bold text-center text-blue-600">Calculadora de Cambio</h1>
       <p class="text-center text-sm sm:text-base text-gray-500 mb-6">Basado en la media de la fuente seleccionada</p>
 
+      <!-- Selector de fuente -->
       <div class="mb-4">
         <label class="block font-semibold mb-1 text-sm sm:text-base">Fuente</label>
         <select id="currency-source"
           class="w-full p-3 text-lg border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
-          <option value="itau">Itau - Link </option>
-          <option value="bandes">Bandes - E-Bandes</option>
+          <option value="itau">Itau</option>
+          <option value="bandes">Bandes</option>
         </select>
       </div>
 
+      <!-- Monto en USD -->
       <div class="mb-4">
         <label class="block font-semibold mb-1 text-sm sm:text-base">Monto en USD</label>
         <input id="usd-amount" type="number" value="100"
           class="w-full p-3 text-lg border rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
       </div>
 
+      <!-- Botón calcular -->
       <button onclick="calcular()"
         class="w-full bg-blue-600 text-white text-lg py-3 rounded-lg hover:bg-blue-700 transition">
         Calcular
       </button>
 
+      <!-- Resultado -->
       <div id="result" class="mt-6 text-center text-base sm:text-lg"></div>
 
+      <!-- Historial -->
       <div id="history" class="mt-6 max-w-lg mx-auto text-left text-sm text-gray-600 border-t pt-4">
         <h2 class="font-semibold mb-2">Últimas 3 consultas:</h2>
         <ul id="history-list" class="list-disc list-inside"></ul>
@@ -56,121 +61,138 @@
     </div>
   </div>
 
-<script>
-  const apikey = "admin123";
-  let resultadoTexto = "";
+  <script>
+    const apikey = "admin123";
+    let resultadoTexto = "";
 
-  // Carga el historial al iniciar la página
-  document.addEventListener('DOMContentLoaded', () => {
-    mostrarHistorial();
-  });
+    // Mostrar historial al cargar
+    document.addEventListener('DOMContentLoaded', () => {
+      mostrarHistorial();
+    });
 
-  function validarMonto(monto) {
-    if (isNaN(monto) || monto <= 0) {
-      alert("Por favor ingresa un monto válido mayor a 0.");
-      return false;
-    }
-    if (monto > 1000000) {
-      alert("Por favor ingresa un monto menor a 1.000.000.");
-      return false;
-    }
-    return true;
-  }
-
-  async function calcular() {
-    const montoUSD = parseFloat(document.getElementById("usd-amount").value);
-    const fuente = document.getElementById("currency-source").value;
-    const resultDiv = document.getElementById("result");
-
-    if (!validarMonto(montoUSD)) {
-      resultDiv.innerHTML = "";
-      return;
+    function validarMonto(monto) {
+      if (isNaN(monto) || monto <= 0) {
+        alert("Por favor ingresa un monto válido mayor a 0.");
+        return false;
+      }
+      if (monto > 1000000) {
+        alert("Por favor ingresa un monto menor a 1.000.000.");
+        return false;
+      }
+      return true;
     }
 
-    resultDiv.innerHTML = "Cargando...";
+    // Función con cache
+    async function obtenerDatos(fuente) {
+      const cacheKey = `cache_${fuente}`;
+      const cache = JSON.parse(localStorage.getItem(cacheKey));
+      const ahora = Date.now();
+      const tresMinutos = 3 * 60 * 1000;
 
-    try {
+      if (cache && (ahora - cache.timestamp) < tresMinutos) {
+        return cache.data; // Devuelve cache si no expiró
+      }
+
       const res = await fetch(`/api/currency/${fuente}?apikey=${apikey}`);
       const data = await res.json();
 
-      if (!data.media) {
-        resultDiv.innerHTML = "No se pudo obtener la media.";
+      localStorage.setItem(cacheKey, JSON.stringify({ timestamp: ahora, data }));
+      return data;
+    }
+
+    async function calcular() {
+      const montoUSD = parseFloat(document.getElementById("usd-amount").value);
+      const fuente = document.getElementById("currency-source").value;
+      const resultDiv = document.getElementById("result");
+
+      if (!validarMonto(montoUSD)) {
+        resultDiv.innerHTML = "";
         return;
       }
 
-      const pesosMedia = (montoUSD * data.media).toFixed(2);
-      const pesosBuy = (montoUSD * data.buy).toFixed(2);
-      const beneficio = (pesosMedia - pesosBuy).toFixed(2);
-      const porcentaje = (((data.media - data.buy) / data.buy) * 100).toFixed(2);
+      resultDiv.innerHTML = "Cargando...";
 
-      resultadoTexto = `${montoUSD} USD → ${pesosMedia} UYU (Media ${fuente.charAt(0).toUpperCase() + fuente.slice(1)})`;
+      try {
+        const data = await obtenerDatos(fuente);
 
-      resultDiv.innerHTML = `
-        <p class="text-lg sm:text-xl">Media actual: <strong>${data.media.toFixed(2)} UYU</strong></p>
-        <p class="text-lg sm:text-xl">${montoUSD} USD → <strong>${pesosMedia} UYU</strong></p>
-        <p class="text-sm text-gray-600">Compra: ${data.buy} | Venta: ${data.sell}</p>
-        <p class="mt-2 text-green-600 font-semibold">
-          💰 Beneficio: ${beneficio} UYU (${porcentaje}% mejor que la compra normal)
-        </p>
-        <p class="text-xs text-gray-500 mt-2">Última actualización: ${new Date(data.timestamp).toLocaleString()}</p>
+        if (!data.media) {
+          resultDiv.innerHTML = "No se pudo obtener la media.";
+          return;
+        }
 
-        <div class="mt-4 flex flex-col gap-3">
-          <button onclick="compartirWhatsApp()" class="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600">
-            📲 Compartir en WhatsApp
-          </button>
-          <button onclick="copiarResultado()" class="w-full bg-gray-200 text-gray-800 py-3 rounded-lg hover:bg-gray-300">
-            📋 Copiar Resultado
-          </button>
-        </div>
-      `;
+        const pesosMedia = (montoUSD * data.media).toFixed(2);
+        const pesosBuy = (montoUSD * data.buy).toFixed(2);
+        const beneficio = (pesosMedia - pesosBuy).toFixed(2);
+        const porcentaje = (((data.media - data.buy) / data.buy) * 100).toFixed(2);
 
-      guardarEnHistorial({
-        fecha: new Date().toISOString(),
-        montoUSD,
-        fuente,
-        resultado: resultadoTexto
-      });
-      mostrarHistorial();
+        resultadoTexto = `${montoUSD} USD → ${pesosMedia} UYU (Media ${fuente.charAt(0).toUpperCase() + fuente.slice(1)})`;
 
-    } catch (err) {
-      resultDiv.innerHTML = "Error al obtener datos.";
-    }
-  }
+        resultDiv.innerHTML = `
+          <p class="text-lg sm:text-xl">Media actual: <strong>${data.media.toFixed(2)} UYU</strong></p>
+          <p class="text-lg sm:text-xl">${montoUSD} USD → <strong>${pesosMedia} UYU</strong></p>
+          <p class="text-sm text-gray-600">Compra: ${data.buy} | Venta: ${data.sell}</p>
+          <p class="mt-2 text-green-600 font-semibold">
+            💰 Beneficio: ${beneficio} UYU (${porcentaje}% mejor que la compra normal)
+          </p>
+          <p class="text-xs text-gray-500 mt-2">Última actualización: ${new Date(data.timestamp).toLocaleString()}</p>
 
-  function guardarEnHistorial(consulta) {
-    let historial = JSON.parse(localStorage.getItem('calculadoraHistorial')) || [];
-    historial.unshift(consulta);
-    if (historial.length > 3) historial.pop();
-    localStorage.setItem('calculadoraHistorial', JSON.stringify(historial));
-  }
+          <div class="mt-4 flex flex-col gap-3">
+            <button onclick="compartirWhatsApp()" class="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600">
+              📲 Compartir en WhatsApp
+            </button>
+            <button onclick="copiarResultado()" class="w-full bg-gray-200 text-gray-800 py-3 rounded-lg hover:bg-gray-300">
+              📋 Copiar Resultado
+            </button>
+          </div>
+        `;
 
-  function mostrarHistorial() {
-    const historial = JSON.parse(localStorage.getItem('calculadoraHistorial')) || [];
-    const historyList = document.getElementById('history-list');
-    if (!historyList) return;
+        guardarEnHistorial({
+          fecha: new Date().toISOString(),
+          montoUSD,
+          fuente,
+          resultado: resultadoTexto
+        });
+        mostrarHistorial();
 
-    if (historial.length === 0) {
-      historyList.innerHTML = '<li>No hay consultas recientes.</li>';
-      return;
+      } catch (err) {
+        resultDiv.innerHTML = "Error al obtener datos.";
+      }
     }
 
-    historyList.innerHTML = historial.map(c => {
-      const fecha = new Date(c.fecha).toLocaleString();
-      return `<li><strong>${c.montoUSD} USD</strong> con <em>${c.fuente.charAt(0).toUpperCase() + c.fuente.slice(1)}</em> — <br>${c.resultado} <br><span class="text-xs text-gray-400">${fecha}</span></li>`;
-    }).join('');
-  }
+    function guardarEnHistorial(consulta) {
+      let historial = JSON.parse(localStorage.getItem('calculadoraHistorial')) || [];
+      historial.unshift(consulta);
+      if (historial.length > 3) historial.pop();
+      localStorage.setItem('calculadoraHistorial', JSON.stringify(historial));
+    }
 
-  function compartirWhatsApp() {
-    if (!resultadoTexto) return;
-    const url = `https://wa.me/?text=${encodeURIComponent(resultadoTexto)}`;
-    window.open(url, "_blank");
-  }
+    function mostrarHistorial() {
+      const historial = JSON.parse(localStorage.getItem('calculadoraHistorial')) || [];
+      const historyList = document.getElementById('history-list');
+      if (!historyList) return;
 
-  function copiarResultado() {
-    if (!resultadoTexto) return;
-    navigator.clipboard.writeText(resultadoTexto);
-    alert("Resultado copiado al portapapeles ✅");
-  }
-</script>
+      if (historial.length === 0) {
+        historyList.innerHTML = '<li>No hay consultas recientes.</li>';
+        return;
+      }
+
+      historyList.innerHTML = historial.map(c => {
+        const fecha = new Date(c.fecha).toLocaleString();
+        return `<li><strong>${c.montoUSD} USD</strong> con <em>${c.fuente.charAt(0).toUpperCase() + c.fuente.slice(1)}</em> — <br>${c.resultado} <br><span class="text-xs text-gray-400">${fecha}</span></li>`;
+      }).join('');
+    }
+
+    function compartirWhatsApp() {
+      if (!resultadoTexto) return;
+      const url = `https://wa.me/?text=${encodeURIComponent(resultadoTexto)}`;
+      window.open(url, "_blank");
+    }
+
+    function copiarResultado() {
+      if (!resultadoTexto) return;
+      navigator.clipboard.writeText(resultadoTexto);
+      alert("Resultado copiado al portapapeles ✅");
+    }
+  </script>
 </body>
 </html>
