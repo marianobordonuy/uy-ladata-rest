@@ -2,12 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mini Swagger - uy-ladata</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
 
-  <!-- Header mejorado -->
+  <!-- Header -->
   <header class="bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow">
     <div class="max-w-6xl mx-auto flex justify-between items-center px-4 py-4">
       <h1 class="text-xl sm:text-2xl font-bold">uy-ladata API</h1>
@@ -17,7 +18,6 @@
         <a href="/link.html" class="hidden sm:inline-block text-white hover:underline">💵 Link Calc</a>
         <a href="mailto:api@usd.uy" class="hidden sm:inline-block text-white hover:underline">📧 Contacto</a>
 
-        <!-- Botón Admin discreto -->
         <a href="/admin.html" class="ml-3 bg-white text-blue-600 px-3 py-1 text-sm rounded hover:bg-gray-100 transition">
           ⚙️ Admin
         </a>
@@ -25,41 +25,24 @@
     </div>
   </header>
 
-  <div class="max-w-3xl mx-auto p-6">
-    <h1 class="text-3xl font-bold text-blue-600 mb-8">Mini Swagger - uy-ladata API</h1>
+  <main class="max-w-4xl mx-auto py-10 px-4 sm:px-6">
 
-    <!-- Botón volver -->
+    <h1 class="text-2xl sm:text-3xl font-bold text-blue-600 mb-8">Mini Swagger - uy-ladata API</h1>
+
     <div class="mb-10">
       <a href="/index.html" class="bg-gray-200 text-gray-700 px-4 py-2 rounded shadow hover:bg-gray-300 transition">
         ← Volver al Inicio / Back to Home
       </a>
     </div>
 
-    <!-- API KEY FIJA
-    <div class="mb-8">
-      <p class="text-gray-600 text-sm mb-2">Using API Key: <code class="bg-gray-100 px-2 py-1 rounded">admin123</code></p>
-    </div>
-    -->
-
-    <!-- /api/currency/live 
-    <div class="mb-10">
-      <h2 class="text-2xl font-semibold mb-2">/api/currency/live</h2>
-      <button onclick="fetchLive()" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition">
-        Probar Live
-      </button>
-      <pre id="live-output" class="bg-gray-100 p-3 mt-3 rounded"></pre>
-    </div>
-    -->
-
-        <!-- /api/currency/{banco} -->
-    <div class="mb-10">
-      <h2 class="text-2xl font-semibold mb-1">Cotizacion actualizada</h2>
+    <!-- /api/currency/{banco} -->
+    <section class="mb-10">
+      <h2 class="text-xl sm:text-2xl font-semibold mb-1">📈 Cotización actualizada</h2>
       <p class="text-sm text-gray-500 mb-4">Real-time Currency Rate</p>
 
-      <h3 class="text-2xl font-semibold mb-2">/api/currency/&lt;banco&gt;</h3>
       <form onsubmit="event.preventDefault(); fetchBanco()" class="space-y-4">
         <div>
-          <label class="font-semibold">Seleccionar Banco o Casa/Select Bank or Exchange:</label>
+          <label class="font-semibold">Seleccionar Banco / Casa de cambio:</label>
           <select id="banco" class="w-full p-2 rounded border">
             <option value="itau">itau</option>
             <option value="alter">alter</option>
@@ -67,23 +50,21 @@
             <option value="delta">delta</option>
             <option value="gales">gales</option>
           </select>
-          <p>No todas las fuentes estan disponibles para pruebas.</p>
-          <p class="text-sm text-gray-500 mb-4">Not all sources are available for testing.</p>
+          <p class="text-sm text-gray-500">No todas las fuentes están disponibles para pruebas.</p>
         </div>
 
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition">
-          Consultar Cotizacion / Query Exchange Rate
+          Consultar Cotización
         </button>
       </form>
-      <pre id="banco-output" class="bg-gray-100 p-3 mt-3 rounded"></pre>
-    </div>
+      <pre id="banco-output" class="bg-gray-100 p-3 mt-3 rounded overflow-x-auto"></pre>
+    </section>
 
     <!-- /api/convert -->
-    <div class="mb-10">
-      <h2 class="text-2xl font-semibold mb-1">Conversión de divisas</h2>
+    <section class="mb-10">
+      <h2 class="text-xl sm:text-2xl font-semibold mb-1">🔄 Conversión de divisas</h2>
       <p class="text-sm text-gray-500 mb-4">Currency conversion</p>
 
-      <h3 class="text-2xl font-semibold mb-2">/api/convert</h3>
       <form onsubmit="event.preventDefault(); convertCurrency()" class="space-y-4">
         <div>
           <label class="font-semibold">Monto / Amount:</label>
@@ -115,25 +96,24 @@
             <option value="delta">delta</option>
             <option value="gales">gales</option>
           </select>
-          <p>No todas las fuentes estan disponibles para pruebas.</p>
-          <p class="text-sm text-gray-500 mb-4">Not all sources are available for testing.</p>
+          <p class="text-sm text-gray-500">No todas las fuentes están disponibles para pruebas.</p>
         </div>
 
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition">
           Convertir / Convert
         </button>
       </form>
-      <pre id="convert-output" class="bg-gray-100 p-3 mt-3 rounded"></pre>
-    </div>
+      <pre id="convert-output" class="bg-gray-100 p-3 mt-3 rounded overflow-x-auto"></pre>
+    </section>
 
     <!-- Fuel section -->
-    <div class="mb-10">
-      <h2 class="text-2xl font-semibold mb-1">Consultar Precio de Combustible</h2>
+    <section class="mb-10">
+      <h2 class="text-xl sm:text-2xl font-semibold mb-1">⛽ Consultar Precio de Combustible</h2>
       <p class="text-sm text-gray-500 mb-4">Fuel Price Query</p>
 
       <form onsubmit="event.preventDefault(); fetchFuel()" class="space-y-4">
         <div>
-          <label class="font-semibold">Tipo de Combustible / Fuel Type:</label>
+          <label class="font-semibold">Tipo de Combustible:</label>
           <select id="fuel" class="w-full p-2 rounded border">
             <option value="super95">Super 95</option>
             <option value="premium97">Premium 97</option>
@@ -144,30 +124,20 @@
         </div>
 
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition">
-          Consultar Combustible / Query Fuel
+          Consultar Combustible
         </button>
       </form>
-      <pre id="fuel-output" class="bg-gray-100 p-3 mt-3 rounded"></pre>
-    </div>
+      <pre id="fuel-output" class="bg-gray-100 p-3 mt-3 rounded overflow-x-auto"></pre>
+    </section>
 
-  </div>
+  </main>
+
+  <footer class="text-center text-xs sm:text-sm text-gray-500 py-6">
+    &copy; 2025 usd.uy — hecho en Uruguay 🇺🇾 — api@usd.uy
+  </footer>
 
   <script>
     const apikey = "admin123";
-
-    /* async function fetchLive() {
-      const out = document.getElementById('live-output');
-      out.textContent = 'Cargando...';
-
-      try {
-        const res = await fetch(`/api/currency/live?apikey=${apikey}`);
-        const data = await res.json();
-        out.textContent = JSON.stringify(data, null, 2);
-      } catch (err) {
-        out.textContent = 'Error: ' + err.message;
-      }
-    }
-    */
 
     async function convertCurrency() {
       const amount = document.getElementById('amount').value;
@@ -200,21 +170,19 @@
       }
     }
 
-        async function fetchFuel() {
+    async function fetchFuel() {
       const fuel = document.getElementById('fuel').value;
       const out = document.getElementById('fuel-output');
-      out.textContent = 'Cargando... / Loading...';
+      out.textContent = 'Cargando...';
 
       try {
         const res = await fetch(`/api/fuel?apikey=${apikey}`);
         const data = await res.json();
-        const fuelData = data[fuel];
-        out.textContent = JSON.stringify(fuelData, null, 2);
+        out.textContent = JSON.stringify(data[fuel], null, 2);
       } catch (err) {
         out.textContent = 'Error: ' + err.message;
       }
     }
-
   </script>
 </body>
 </html>
