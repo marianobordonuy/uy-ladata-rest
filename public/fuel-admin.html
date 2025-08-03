@@ -8,9 +8,22 @@
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
 
-  <header class="bg-blue-600 text-white py-6 text-center px-4">
-    <h1 class="text-2xl sm:text-3xl font-bold">🔧 Admin Combustibles</h1>
-    <p class="mt-1 text-sm sm:text-base">Actualizar precios en la API</p>
+  <!-- Header mejorado -->
+  <header class="bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow">
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-4 py-4">
+      <h1 class="text-xl sm:text-2xl font-bold">uy-ladata API</h1>
+
+      <div class="flex items-center gap-3">
+        <a href="/docs.html" class="hidden sm:inline-block text-white hover:underline">📄 Docs</a>
+        <a href="/link.html" class="hidden sm:inline-block text-white hover:underline">💵 Link Calc</a>
+        <a href="mailto:api@usd.uy" class="hidden sm:inline-block text-white hover:underline">📧 Contacto</a>
+
+        <!-- Botón Admin discreto -->
+        <a href="/admin.html" class="ml-3 bg-white text-blue-600 px-3 py-1 text-sm rounded hover:bg-gray-100 transition">
+          ⚙️ Admin
+        </a>
+      </div>
+    </div>
   </header>
 
   <main class="max-w-lg mx-auto py-10 px-4 sm:px-6">
@@ -47,8 +60,8 @@
 
     <!-- Botón volver -->
     <div class="mt-6">
-      <a href="index.html" class="block w-full text-center bg-gray-200 text-gray-800 py-2 rounded hover:bg-gray-300">
-        ⬅️ Volver al Inicio
+      <a href="admin.html" class="block w-full text-center bg-gray-200 text-gray-800 py-2 rounded hover:bg-gray-300">
+        ⬅️ Volver al Panel Admin
       </a>
     </div>
   </main>

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // Bancos
+const scrapeBandes = require('../scrapers/bandes');
 const scrapeItau = require('../scrapers/itau');
 
 // Cambios
@@ -18,6 +19,15 @@ const scrapeVarlix = require('../scrapers/varlix');
 // Opcional: otros que tenías comentados o en lista
 
 // 📌 Endpoints individuales
+router.get('/bandes', async (req, res) => {
+    try {
+        const data = await scrapeBandes();
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: 'Error en Bandes' });
+    }
+});
+
 router.get('/itau', async (req, res) => {
     try {
         const data = await scrapeItau();
@@ -120,6 +130,7 @@ router.get('/varlix', async (req, res) => {
 // 📦 Endpoint de listado: /api/currency/all
 router.get('/all', (req, res) => {
     const banks = [
+        { name: 'Bandes', endpoint: '/api/currency/bandes' },
         { name: 'Itau', endpoint: '/api/currency/itau' }
         // Podés agregar más bancos si implementás BROU, BBVA, etc.
     ];
@@ -143,7 +154,7 @@ router.get('/all', (req, res) => {
 router.get('/live', async (req, res) => {
     try {
       const results = await Promise.allSettled([
-        scrapeItau(), scrapeAeromar(), scrapeAlter(), scrapeAspen(),
+        scrapeBandes(), scrapeItau(), scrapeAeromar(), scrapeAlter(), scrapeAspen(),
         scrapeCambilex(), scrapeDelta(), scrapeGales(), scrapeIberia(),
         scrapeMaiorano(), scrapeVal(), scrapeVarlix()
       ]);

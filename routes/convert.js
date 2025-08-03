@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const sources = {
+  bandes: require('../scrapers/bandes'),
   itau: require('../scrapers/itau'),
   aeromar: require('../scrapers/aeromar'),
   alter: require('../scrapers/alter'),

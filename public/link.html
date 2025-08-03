@@ -11,7 +11,16 @@
   <div class="max-w-lg w-full mx-auto px-4 sm:px-6 mt-10">
     <div class="bg-white rounded-lg shadow p-6 sm:p-8">
       <h1 class="text-2xl sm:text-3xl font-bold text-center text-blue-600">Calculadora de Cambio</h1>
-      <p class="text-center text-sm sm:text-base text-gray-500 mb-6">Basado en la media de Itau Link</p>
+      <p class="text-center text-sm sm:text-base text-gray-500 mb-6">Basado en la media de la fuente seleccionada</p>
+
+      <div class="mb-4">
+        <label class="block font-semibold mb-1 text-sm sm:text-base">Fuente</label>
+        <select id="currency-source"
+          class="w-full p-3 text-lg border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <option value="itau">Itau</option>
+          <option value="bandes">Bandes</option>
+        </select>
+      </div>
 
       <div class="mb-4">
         <label class="block font-semibold mb-1 text-sm sm:text-base">Monto en USD</label>
@@ -48,11 +57,12 @@
 
     async function calcular() {
       const montoUSD = parseFloat(document.getElementById("usd-amount").value);
+      const fuente = document.getElementById("currency-source").value;
       const resultDiv = document.getElementById("result");
       resultDiv.innerHTML = "Cargando...";
 
       try {
-        const res = await fetch(`/api/currency/itau?apikey=${apikey}`);
+        const res = await fetch(`/api/currency/${fuente}?apikey=${apikey}`);
         const data = await res.json();
 
         if (!data.media) {
@@ -65,7 +75,7 @@
         const beneficio = (pesosMedia - pesosBuy).toFixed(2);
         const porcentaje = (((data.media - data.buy) / data.buy) * 100).toFixed(2);
 
-        resultadoTexto = `${montoUSD} USD → ${pesosMedia} UYU (Media Link ${data.media.toFixed(2)})`;
+        resultadoTexto = `${montoUSD} USD → ${pesosMedia} UYU (Media ${fuente.charAt(0).toUpperCase() + fuente.slice(1)})`;
 
         resultDiv.innerHTML = `
           <p class="text-lg sm:text-xl">Media actual: <strong>${data.media.toFixed(2)} UYU</strong></p>

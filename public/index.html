@@ -8,9 +8,22 @@
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
 
-  <header class="bg-blue-600 text-white py-10 text-center px-4">
-    <h1 class="text-3xl sm:text-4xl font-bold">uy-ladata API</h1>
-    <p class="mt-2 text-base sm:text-lg">Cotizaciones y combustibles de Uruguay — Uruguay FX & Fuel API</p>
+  <!-- Header mejorado -->
+  <header class="bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow">
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-4 py-4">
+      <h1 class="text-xl sm:text-2xl font-bold">uy-ladata API</h1>
+
+      <div class="flex items-center gap-3">
+        <a href="/docs.html" class="hidden sm:inline-block text-white hover:underline">📄 Docs</a>
+        <a href="/link.html" class="hidden sm:inline-block text-white hover:underline">💵 Link Calc</a>
+        <a href="mailto:api@usd.uy" class="hidden sm:inline-block text-white hover:underline">📧 Contacto</a>
+
+        <!-- Botón Admin discreto -->
+        <a href="/admin.html" class="ml-3 bg-white text-blue-600 px-3 py-1 text-sm rounded hover:bg-gray-100 transition">
+          ⚙️ Admin
+        </a>
+      </div>
+    </div>
   </header>
 
   <main class="max-w-4xl mx-auto py-10 px-4 sm:px-6">
@@ -77,14 +90,6 @@ curl "https://yourapi.com/api/convert?amount=100&amp;from=USD&amp;to=UYU&amp;sou
       <p class="text-sm text-gray-500 mb-4">Write me to get your personalized API key:</p>
       <a href="mailto:api@usd.uy?subject=Acceso%20a%20la%20API" class="block w-full sm:w-auto text-center mt-4 px-5 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
         📧 Solicitar por correo
-      </a>
-    </section>
-
-    <section class="mb-10">
-      <h2 class="text-xl sm:text-2xl font-semibold mb-1">⚙️ Panel de Administración</h2>
-      <p class="text-sm text-gray-500 mb-4">Admin Panel</p>
-      <a href="admin.html" class="block w-full sm:w-auto text-center mt-2 px-5 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-900">
-        Ir al Admin
       </a>
     </section>
 
