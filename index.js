@@ -20,7 +20,7 @@ app.use('/api', apiKeyMiddleware);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-    res.send('API de Cotizaciones de Moneda - /api/currency/itau');
+    res.send('API de Cotizaciones de Moneda');
 });
 
 app.listen(PORT, () => {
