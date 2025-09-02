@@ -16,7 +16,6 @@ async function scrapeVal() {
 
     return {
         source: 'Val',
-        url,
         currency: 'USD',
         buy,
         sell,

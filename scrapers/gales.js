@@ -16,7 +16,6 @@ async function scrapeGales() {
 
     return {
         source: 'Gales',
-        url,
         currency: 'USD',
         buy,
         sell,

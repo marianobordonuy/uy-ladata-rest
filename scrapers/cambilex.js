@@ -16,7 +16,6 @@ async function scrapeCambilex() {
 
     return {
         source: 'Cambilex',
-        url,
         currency: 'USD',
         buy,
         sell,

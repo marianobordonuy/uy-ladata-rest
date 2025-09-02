@@ -16,7 +16,6 @@ async function scrapeIberia() {
 
     return {
         source: 'Iberia',
-        url,
         currency: 'USD',
         buy,
         sell,

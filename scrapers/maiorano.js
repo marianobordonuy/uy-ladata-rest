@@ -17,7 +17,6 @@ async function scrapeMaiorano() {
 
     return {
         source: 'Maiorano',
-        url,
         currency: 'USD',
         buy,
         sell,

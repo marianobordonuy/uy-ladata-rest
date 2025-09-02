@@ -15,7 +15,6 @@ async function scrapeAeromar() {
 
     return {
         source: 'Aeromar',
-        url,
         currency: 'USD',
         buy,
         sell,

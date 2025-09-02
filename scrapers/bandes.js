@@ -17,7 +17,6 @@ async function scrapeBandes() {
 
     return {
       source: 'Bandes',
-      url: bandesUrl,
       currency: 'USD',
       buy,
       sell,

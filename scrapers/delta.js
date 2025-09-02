@@ -16,7 +16,6 @@ async function scrapeDelta() {
 
     return {
         source: 'Delta',
-        url,
         currency: 'USD',
         buy,
         sell,

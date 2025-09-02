@@ -17,7 +17,6 @@ async function scrapeVarlix() {
 
     return {
         source: 'Varlix',
-        url,
         currency: 'USD',
         buy,
         sell,

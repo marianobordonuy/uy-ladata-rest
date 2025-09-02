@@ -19,7 +19,6 @@ async function scrapeItau() {
 
     return {
         source: 'Itau',
-        url: itauUrl,
         currency: 'USD',
         buy,
         sell,

@@ -16,7 +16,6 @@ async function scrapeAlter() {
 
     return {
         source: 'Alter',
-        url,
         currency: 'USD',
         buy,
         sell,

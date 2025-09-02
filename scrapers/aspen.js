@@ -16,7 +16,6 @@ async function scrapeAspen() {
 
     return {
         source: 'Aspen',
-        url,
         currency: 'USD',
         buy,
         sell,
