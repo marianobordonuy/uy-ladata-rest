@@ -138,11 +138,10 @@
   </footer>
 
   <script>
+    const apikey = "admin123";
     document.getElementById("menu-btn").addEventListener("click", () => {
       document.getElementById("mobile-menu").classList.toggle("hidden");
     });
-
-    const apikey = "admin123";
 
     async function convertCurrency() {
       const amount = document.getElementById('amount').value;
