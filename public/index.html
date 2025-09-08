@@ -309,7 +309,7 @@
       }
 
       // Timeout simple (25s)
-      function fetchWithTimeout(url, ms = 25000) {
+      function fetchWithTimeout(url, ms = 35000) {
         const ctrl = new AbortController();
         const t = setTimeout(() => { try { ctrl.abort('timeout'); } catch(_){} }, ms);
         return fetch(url, { signal: ctrl.signal, cache: 'no-store' })
