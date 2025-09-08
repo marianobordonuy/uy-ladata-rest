@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>uyu.exchange – Developers</title>
+    <meta name="description" content="Docs de la API de uyu.exchange: cotizaciones USD/UYU, endpoints, ejemplos y mejores prácticas." />
+    <link rel="icon" href="/favicon.ico" />
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50:  '#f1f8f5',
+                100: '#dcefe6',
+                200: '#c1e1d1',
+                300: '#99ccb3',
+                400: '#6fb896',
+                500: '#4aa87d',
+                600: '#2f9467',
+                700: '#247a56',
+                800: '#1f6247',
+                900: '#1a523c'
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      pre code { white-space: pre; }
+      .code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+      .tab-btn[aria-selected="true"]{ background: #2f9467; color: #fff; }
+    </style>
+  </head>
+  <body class="bg-gradient-to-b from-white to-brand-50 text-slate-900 antialiased">
+    <!-- Header -->
+    <header class="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-brand-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <a href="/" class="flex items-center gap-2 font-semibold text-brand-800">
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-white">U</span>
+            <span class="hidden sm:inline">uyu.exchange</span>
+          </a>
+          <nav class="hidden md:flex items-center gap-6 text-sm">
+            <a href="/" class="hover:text-brand-700">Inicio</a>
+            <a href="/calculadora" class="hover:text-brand-700">Calculadora</a>
+            <a href="/about" class="hover:text-brand-700">Nosotros</a>
+            <a href="#docs" class="inline-flex items-center rounded-xl bg-brand-600 px-4 py-2 text-white font-medium hover:bg-brand-700">Docs API</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+        <div class="grid lg:grid-cols-2 gap-10 items-center">
+          <div>
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-brand-900">uyu.exchange API</h1>
+            <p class="mt-4 text-lg text-brand-800 max-w-prose">Cotizaciones USD/UYU limpias y rápidas para tus apps y sitios. Endpoints simples, formatos consistentes y alta disponibilidad.</p>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="#quickstart" class="inline-flex items-center rounded-xl bg-brand-600 px-5 py-3 text-white font-semibold hover:bg-brand-700">Empezar en 2 minutos</a>
+              <a href="#pricing" class="inline-flex items-center rounded-xl px-5 py-3 font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100">Precios</a>
+            </div>
+            <p class="mt-3 text-xs text-brand-700">¿Necesitás clave de API? Escribinos a <a class="underline" href="mailto:api@uyu.exchange">api@uyu.exchange</a>.</p>
+          </div>
+          <div class="relative">
+            <div class="rounded-2xl bg-white shadow-xl ring-1 ring-brand-200 p-4 sm:p-6">
+              <div class="text-sm font-semibold text-brand-900">Ejemplo de respuesta</div>
+              <pre class="mt-3 bg-brand-50 p-4 rounded-xl overflow-auto code text-xs"><code>{
+  "data": [
+    { "name": "Itaú",  "buy": 51.20, "sell": 53.50 },
+    { "name": "BROU",  "buy": 50.90, "sell": 53.10 },
+    { "name": "Gales", "buy": 51.00, "sell": 53.30 }
+  ],
+  "updated_at": "2025-09-03T12:34:56Z"
+}</code></pre>
+              <div class="mt-3 text-xs text-brand-700">Endpoint: <span class="font-mono">GET /api/currency/live?apikey=TU_API_KEY</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Body with sidebar -->
+    <main id="docs" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 grid lg:grid-cols-12 gap-8">
+      <!-- Sidebar -->
+      <aside class="lg:col-span-3 hidden lg:block">
+        <nav class="sticky top-20 space-y-2 text-sm">
+          <a href="#quickstart" class="block px-3 py-2 rounded-lg hover:bg-brand-100">Quickstart</a>
+          <a href="#auth" class="block px-3 py-2 rounded-lg hover:bg-brand-100">Autenticación</a>
+          <a href="#endpoints" class="block px-3 py-2 rounded-lg hover:bg-brand-100">Endpoints</a>
+          <a href="#limits" class="block px-3 py-2 rounded-lg hover:bg-brand-100">Límites y caché</a>
+          <a href="#pricing" class="block px-3 py-2 rounded-lg hover:bg-brand-100">Precios</a>
+          <a href="#status" class="block px-3 py-2 rounded-lg hover:bg-brand-100">Status</a>
+          <a href="#changelog" class="block px-3 py-2 rounded-lg hover:bg-brand-100">Changelog</a>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <section class="lg:col-span-9 space-y-12">
+        <!-- Quickstart -->
+        <article id="quickstart" class="rounded-2xl bg-white ring-1 ring-brand-200 p-6">
+          <h2 class="text-xl font-bold text-brand-900">Quickstart</h2>
+          <p class="mt-2 text-brand-800">Hacé tu primer request en segundos.</p>
+          <div class="mt-4 flex gap-2">
+            <button class="tab-btn inline-flex items-center rounded-xl border border-brand-200 px-3 py-1 text-sm" aria-selected="true" data-tab="curl">cURL</button>
+            <button class="tab-btn inline-flex items-center rounded-xl border border-brand-200 px-3 py-1 text-sm" aria-selected="false" data-tab="js">JavaScript</button>
+            <button class="tab-btn inline-flex items-center rounded-xl border border-brand-200 px-3 py-1 text-sm" aria-selected="false" data-tab="python">Python</button>
+          </div>
+          <div class="mt-3">
+            <div class="tab-panel" id="tab-curl">
+              <pre class="bg-brand-50 p-4 rounded-xl overflow-auto code text-xs"><code>curl -s \
+  "https://api.uyu.exchange/api/currency/live?apikey=TU_API_KEY"</code></pre>
+            </div>
+            <div class="tab-panel hidden" id="tab-js">
+              <pre class="bg-brand-50 p-4 rounded-xl overflow-auto code text-xs"><code>fetch("https://api.uyu.exchange/api/currency/live?apikey=TU_API_KEY")
+  .then(r => r.json())
+  .then(console.log)
+  .catch(console.error)</code></pre>
+            </div>
+            <div class="tab-panel hidden" id="tab-python">
+              <pre class="bg-brand-50 p-4 rounded-xl overflow-auto code text-xs"><code>import requests
+r = requests.get("https://api.uyu.exchange/api/currency/live", params={"apikey": "TU_API_KEY"})
+print(r.json())</code></pre>
+            </div>
+          </div>
+        </article>
+
+        <!-- Auth -->
+        <article id="auth" class="rounded-2xl bg-white ring-1 ring-brand-200 p-6">
+          <h2 class="text-xl font-bold text-brand-900">Autenticación</h2>
+          <p class="mt-2 text-brand-800">Usá tu <span class="font-mono">apikey</span> como query param: <span class="font-mono">?apikey=…</span>. También soportamos header <span class="font-mono">X-API-Key</span>.</p>
+          <pre class="mt-3 bg-brand-50 p-4 rounded-xl overflow-auto code text-xs"><code>GET /api/currency/live HTTP/1.1
+Host: api.uyu.exchange
+X-API-Key: TU_API_KEY</code></pre>
+        </article>
+
+        <!-- Endpoints -->
+        <article id="endpoints" class="rounded-2xl bg-white ring-1 ring-brand-200 p-6">
+          <h2 class="text-xl font-bold text-brand-900">Endpoints</h2>
+          <div class="mt-4 space-y-6">
+            <div>
+              <h3 class="font-semibold text-brand-900">GET /api/currency/live</h3>
+              <p class="text-sm text-brand-800">Cotizaciones vivas de bancos y casas de cambio.</p>
+              <div class="mt-2 overflow-auto">
+                <table class="min-w-full text-sm">
+                  <thead class="text-left text-brand-700">
+                    <tr>
+                      <th class="py-2 pr-4">Parámetro</th>
+                      <th class="py-2 pr-4">Tipo</th>
+                      <th class="py-2 pr-4">Descripción</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-brand-100">
+                    <tr><td class="py-2 pr-4 font-medium">apikey</td><td class="py-2 pr-4">string</td><td class="py-2 pr-4">Tu clave de API (obligatorio).</td></tr>
+                    <tr><td class="py-2 pr-4 font-medium">sources</td><td class="py-2 pr-4">string[]</td><td class="py-2 pr-4">Filtrar por fuentes (opcional).</td></tr>
+                    <tr><td class="py-2 pr-4 font-medium">format</td><td class="py-2 pr-4">string</td><td class="py-2 pr-4">"json" (default) o "csv".</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="mt-3 text-xs text-brand-700">Ejemplo:</div>
+              <pre class="mt-1 bg-brand-50 p-4 rounded-xl overflow-auto code text-xs"><code>GET https://api.uyu.exchange/api/currency/live?apikey=TU_API_KEY</code></pre>
+
+              <!-- Esquema de respuesta -->
+              <div class="mt-6">
+                <h4 class="font-semibold text-brand-900">Respuesta (JSON)</h4>
+                <pre class="mt-2 bg-brand-50 p-4 rounded-xl overflow-auto code text-xs"><code>{
+  "data": [
+    { "name": "Itaú", "buy": 51.20, "sell": 53.50 },
+    { "name": "BROU", "buy": 50.90, "sell": 53.10 }
+  ],
+  "updated_at": "2025-09-03T12:34:56Z"
+}</code></pre>
+                <div class="mt-2 overflow-auto">
+                  <table class="min-w-full text-sm">
+                    <thead class="text-left text-brand-700">
+                      <tr>
+                        <th class="py-2 pr-4">Campo</th>
+                        <th class="py-2 pr-4">Tipo</th>
+                        <th class="py-2 pr-4">Descripción</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-brand-100">
+                      <tr><td class="py-2 pr-4 font-medium">data</td><td class="py-2 pr-4">array</td><td class="py-2 pr-4">Listado de fuentes con sus tasas actuales.</td></tr>
+                      <tr><td class="py-2 pr-4 font-medium">data[].name</td><td class="py-2 pr-4">string</td><td class="py-2 pr-4">Nombre de banco o casa de cambio.</td></tr>
+                      <tr><td class="py-2 pr-4 font-medium">data[].buy</td><td class="py-2 pr-4">number</td><td class="py-2 pr-4">Precio de <strong>Compra</strong> (UYU por USD).</td></tr>
+                      <tr><td class="py-2 pr-4 font-medium">data[].sell</td><td class="py-2 pr-4">number</td><td class="py-2 pr-4">Precio de <strong>Venta</strong> (UYU por USD).</td></tr>
+                      <tr><td class="py-2 pr-4 font-medium">updated_at</td><td class="py-2 pr-4">ISO8601</td><td class="py-2 pr-4">Timestamp de última actualización del conjunto.</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="mt-6">
+                  <h4 class="font-semibold text-brand-900">Códigos de estado</h4>
+                  <ul class="mt-2 list-disc pl-5 text-sm text-brand-800">
+                    <li><span class="font-mono">200</span> OK — respuesta con <span class="font-mono">data</span>.</li>
+                    <li><span class="font-mono">401</span> Unauthorized — API key inválida o ausente.</li>
+                    <li><span class="font-mono">429</span> Too Many Requests — superaste el rate limit.</li>
+                    <li><span class="font-mono">5xx</span> Error en servidor — reintentá con backoff y caché corto.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Límites y cache -->
+        <article id="limits" class="rounded-2xl bg-white ring-1 ring-brand-200 p-6">
+          <h2 class="text-xl font-bold text-brand-900">Límites y caché</h2>
+          <ul class="mt-2 list-disc pl-5 text-sm text-brand-800">
+            <li>Rate limit sugerido inicial: <strong>60 req/min</strong> por clave (consultanos si precisás más).</li>
+            <li>Cache recomendado en cliente: <strong>30–60s</strong> para <span class="font-mono">/currency/live</span>.</li>
+            <li>Formato de números: punto decimal y 2–4 decimales.</li>
+          </ul>
+        </article>
+
+        <!-- Precios -->
+        <article id="pricing" class="rounded-2xl bg-white ring-1 ring-brand-200 p-6">
+          <h2 class="text-xl font-bold text-brand-900">Precios</h2>
+          <div class="mt-4 grid sm:grid-cols-3 gap-4">
+            <div class="rounded-2xl ring-1 ring-brand-200 p-4">
+              <div class="text-sm font-semibold">Starter</div>
+              <div class="text-3xl font-extrabold mt-1">Gratis</div>
+              <ul class="mt-3 text-sm text-brand-800 list-disc pl-5">
+                <li>5.000 req/mes</li>
+                <li>Live quotes</li>
+                <li>Soporte por email</li>
+              </ul>
+            </div>
+            <div class="rounded-2xl ring-2 ring-brand-600 p-4 bg-brand-50">
+              <div class="text-sm font-semibold">Pro</div>
+              <div class="text-3xl font-extrabold mt-1">U$S 19<span class="text-base font-medium">/mes</span></div>
+              <ul class="mt-3 text-sm text-brand-800 list-disc pl-5">
+                <li>100.000 req/mes</li>
+                <li>Live quotes</li>
+                <li>SLA 99,9%</li>
+              </ul>
+            </div>
+            <div class="rounded-2xl ring-1 ring-brand-200 p-4">
+              <div class="text-sm font-semibold">Enterprise</div>
+              <div class="text-3xl font-extrabold mt-1">A medida</div>
+              <ul class="mt-3 text-sm text-brand-800 list-disc pl-5">
+                <li>Límites personalizados</li>
+                <li>Soporte prioritario</li>
+                <li>On-prem / región</li>
+              </ul>
+            </div>
+          </div>
+          <div class="mt-4 text-sm text-brand-800">Consultas comerciales: <a class="underline" href="mailto:api@uyu.exchange">api@uyu.exchange</a>.</div>
+        </article>
+
+        <!-- Status & Changelog -->
+        <article id="status" class="rounded-2xl bg-white ring-1 ring-brand-200 p-6">
+          <h2 class="text-xl font-bold text-brand-900">Status</h2>
+          <p class="mt-2 text-brand-800">Estado de la API: <span class="inline-flex items-center rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-[12px]">Operativa</span></p>
+          <p class="mt-1 text-xs text-brand-700">Para incidentes en curso escribí a <a class="underline" href="mailto:api@uyu.exchange">api@uyu.exchange</a>.</p>
+        </article>
+
+        <article id="changelog" class="rounded-2xl bg-white ring-1 ring-brand-200 p-6">
+          <h2 class="text-xl font-bold text-brand-900">Changelog</h2>
+          <ul class="mt-2 text-sm text-brand-800 space-y-2">
+            <li><span class="font-mono">2025-09-03</span> — Versión inicial pública de docs.</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-brand-100 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-sm text-brand-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div>© <span id="year"></span> uyu.exchange — Hecho en Uruguay 🇺🇾</div>
+        <div class="flex items-center gap-4">
+          <a href="/" class="hover:text-brand-700">Inicio</a>
+          <!-- <a href="/calculadora" class="hover:text-brand-700">Calculadora</a> -->
+          <a href="/nosotros.html" class="hover:text-brand-700">Nosotros</a>
+          <a href="/developer.html" class="hover:text-brand-700">Desarrolladores</a>
+          <a href="mailto:api@uyu.exchange" class="hover:text-brand-700">Contacto</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Tabs
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab-btn'));
+      function showTab(name){
+        var panels = ['curl','js','python'];
+        for (var i=0;i<panels.length;i++){
+          var id = 'tab-' + panels[i];
+          var el = document.getElementById(id);
+          if (!el) continue;
+          if (panels[i] === name) el.classList.remove('hidden'); else el.classList.add('hidden');
+        }
+        tabs.forEach(function(b){ b.setAttribute('aria-selected', b.getAttribute('data-tab')===name ? 'true' : 'false'); });
+      }
+      tabs.forEach(function(btn){ btn.addEventListener('click', function(){ showTab(this.getAttribute('data-tab')); }); });
+    </script>
+  </body>
+</html>
