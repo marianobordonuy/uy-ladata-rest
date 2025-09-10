@@ -155,8 +155,7 @@ router.get('/live', async (req, res) => {
     try {
       const results = await Promise.allSettled([
         scrapeBandes(), scrapeItau(), scrapeAeromar(), scrapeAlter(), scrapeAspen(),
-        scrapeCambilex(), scrapeDelta(), scrapeGales(), scrapeIberia(),
-        scrapeMaiorano(), scrapeVal(), scrapeVarlix()
+        scrapeCambilex(), scrapeDelta(), scrapeGales(), scrapeIberia(), scrapeVal(), scrapeVarlix()
       ]);
   
       const data = results
