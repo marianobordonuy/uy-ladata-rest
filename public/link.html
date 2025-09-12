@@ -3,36 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calculadora de Cambio</title>
+  <title>Calculadora de Cambio — uyu.exchange</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50:'#f1f8f5',100:'#dcefe6',200:'#c1e1d1',300:'#99ccb3',400:'#6fb896',
+              500:'#4aa87d',600:'#2f9467',700:'#247a56',800:'#1f6247',900:'#1a523c'
+            }
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-gradient-to-b from-white to-brand-50 text-slate-900 antialiased">
 
-  <div class="max-w-lg w-full mx-auto px-4 sm:px-6 mt-10">
-    <div class="bg-white rounded-lg shadow p-6 sm:p-8">
-      <h1 class="text-2xl sm:text-3xl font-bold text-center text-blue-600">Calculadora de Cambio</h1>
-      <p class="text-center text-sm sm:text-base text-gray-500 mb-6">Basado en la media de la fuente seleccionada</p>
+  <!-- Header consistente con el sitio -->
+  <header class="sticky top-0 z-30 backdrop-blur bg-white/70 border-b border-slate-200">
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-4 py-3">
+      <a href="/index.html" class="flex items-center gap-2 font-semibold">
+        <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-white">U</span>
+        <span class="hidden sm:inline">uyu.exchange</span>
+      </a>
+      <nav class="hidden sm:flex items-center gap-4 text-sm">
+        <a href="/docs.html" class="hover:text-brand-700">📄 Docs</a>
+        <a href="/index.html" class="hover:text-brand-700">🏠 Inicio</a>
+      </nav>
+      <a href="/admin.html" class="ml-3 inline-flex items-center rounded-lg bg-brand-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-brand-700">
+        ⚙️ Admin
+      </a>
+    </div>
+  </header>
+
+  <!-- Contenido -->
+  <main class="max-w-xl w-full mx-auto px-4 sm:px-6 mt-8 sm:mt-12">
+    <div class="bg-white rounded-2xl shadow-xl ring-1 ring-brand-200 p-5 sm:p-7">
+      <div class="text-center">
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-brand-900">Calculadora de Cambio</h1>
+        <p class="mt-1 text-sm sm:text-base text-brand-800">Basado en la <span class="font-semibold">media</span> de la fuente seleccionada</p>
+        <div class="mt-3 inline-flex items-center gap-2 text-[12px] sm:text-xs text-brand-700 bg-brand-50 px-3 py-1.5 rounded-full">
+          <span>💵 Modo USD → UYU</span>
+          <span class="h-1 w-1 rounded-full bg-brand-300"></span>
+          <span>Ideal para transferencias entre clientes</span>
+        </div>
+      </div>
 
       <!-- Selector de fuente -->
-      <div class="mb-4">
-        <label class="block font-semibold mb-1 text-sm sm:text-base">Fuente</label>
+      <div class="mt-6">
+        <label for="currency-source" class="block font-semibold mb-1 text-sm sm:text-base text-brand-900">Fuente</label>
         <select id="currency-source"
-          class="w-full p-3 text-lg border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
-          <option value="itau">Itau</option>
+          class="w-full p-3 text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400">
+          <option value="itau">Itaú</option>
           <option value="bandes">Bandes</option>
+          <!-- agregá más si querés -->
         </select>
       </div>
 
       <!-- Monto en USD -->
-      <div class="mb-4">
-        <label class="block font-semibold mb-1 text-sm sm:text-base">Monto en USD</label>
-        <input id="usd-amount" type="number" value="100"
-          class="w-full p-3 text-lg border rounded focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      <div class="mt-4">
+        <label for="usd-amount" class="block font-semibold mb-1 text-sm sm:text-base text-brand-900">Monto en USD</label>
+        <div class="relative">
+          <input id="usd-amount" type="number" inputmode="decimal" min="1" value="100"
+            class="w-full p-3 pr-20 text-lg border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400" />
+          <span class="absolute inset-y-0 right-3 flex items-center text-sm sm:text-base text-slate-500">USD</span>
+        </div>
+        <p class="mt-1 text-xs text-slate-500">Rango sugerido: 1 a 1.000.000 USD</p>
       </div>
 
       <!-- Botón calcular -->
       <button onclick="calcular()"
-        class="w-full bg-blue-600 text-white text-lg py-3 rounded-lg hover:bg-blue-700 transition">
+        class="mt-5 w-full inline-flex items-center justify-center gap-2 bg-brand-600 text-white text-base sm:text-lg py-3 rounded-xl hover:bg-brand-700 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9 .75.75 0 0 0-1.5 0 7.5 7.5 0 1 1-7.5-7.5.75.75 0 0 0 0-1.5Z"/><path d="M12 6.75a.75.75 0 0 0-.75.75v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-3.75H15a.75.75 0 0 0 0-1.5h-2.25V7.5A.75.75 0 0 0 12 6.75Z"/></svg>
         Calcular
       </button>
 
@@ -40,28 +85,46 @@
       <div id="result" class="mt-6 text-center text-base sm:text-lg"></div>
 
       <!-- Historial -->
-      <div id="history" class="mt-6 max-w-lg mx-auto text-left text-sm text-gray-600 border-t pt-4">
-        <h2 class="font-semibold mb-2">Últimas 3 consultas:</h2>
-        <ul id="history-list" class="list-disc list-inside"></ul>
+      <section id="history" class="mt-6 border-t pt-4">
+        <h2 class="font-semibold text-brand-900 mb-2">Últimas 3 consultas</h2>
+        <ul id="history-list" class="list-disc list-inside text-sm text-slate-700"></ul>
+      </section>
+
+      <!-- Acciones secundarias -->
+      <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <button onclick="compartirWhatsApp()" class="w-full bg-green-100 text-green-800 py-2.5 rounded-lg hover:bg-green-200">
+          📲 Compartir WhatsApp
+        </button>
+        <button onclick="copiarResultado()" class="w-full bg-slate-100 text-slate-800 py-2.5 rounded-lg hover:bg-slate-200">
+          📋 Copiar Resultado
+        </button>
       </div>
 
-      <!-- Botón volver -->
+      <!-- Volver -->
       <div class="mt-6">
-        <a href="index.html"
-          class="block text-center bg-gray-200 text-gray-800 py-3 rounded-lg hover:bg-gray-300 transition">
+        <a href="/index.html"
+          class="block text-center bg-white ring-1 ring-brand-200 text-brand-800 py-2.5 rounded-lg hover:bg-brand-50 transition">
           ⬅️ Volver al Inicio
         </a>
       </div>
 
       <!-- Descargo -->
-      <div class="mt-6 text-xs sm:text-sm text-gray-500 text-center border-t pt-4 leading-snug">
-        ⚠️ <strong>Descargo:</strong> La información proporcionada es de carácter informativo.<br />
-        No nos hacemos responsables por el uso de los datos ni por decisiones financieras basadas en ellos.
-      </div>
+      <p class="mt-6 text-xs sm:text-sm text-slate-500 text-center border-t pt-4 leading-snug">
+        ⚠️ <strong>Descargo:</strong> La información es meramente informativa.
+        No nos hacemos responsables por decisiones financieras basadas en estos datos.
+      </p>
     </div>
-  </div>
+  </main>
+
+  <!-- Footer mínimo -->
+  <footer class="mt-8 mb-6 text-center text-[11px] sm:text-xs text-slate-500">
+    © <span id="year"></span> uyu.exchange — Hecho en Uruguay 🇺🇾
+  </footer>
 
   <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // TODO: mover esta key al backend o usar cookie/Storage seguro si es demo.
     const apikey = "admin123";
     let resultadoTexto = "";
 
@@ -72,31 +135,37 @@
 
     function validarMonto(monto) {
       if (isNaN(monto) || monto <= 0) {
-        alert("Por favor ingresa un monto válido mayor a 0.");
-        return false;
+        toast('Por favor ingresá un monto válido mayor a 0.', 'error'); return false;
       }
       if (monto > 1000000) {
-        alert("Por favor ingresa un monto menor a 1.000.000.");
-        return false;
+        toast('Ingresá un monto menor a 1.000.000.', 'error'); return false;
       }
       return true;
     }
 
-    // Función con cache
+    // Mini toast
+    function toast(msg, type='info'){
+      const el = document.createElement('div');
+      el.className = `fixed left-1/2 -translate-x-1/2 top-4 z-50 px-4 py-2 rounded-lg shadow
+        ${type==='error' ? 'bg-red-600 text-white' : 'bg-brand-600 text-white'}`;
+      el.textContent = msg;
+      document.body.appendChild(el);
+      setTimeout(()=> el.remove(), 2200);
+    }
+
+    // Cache 3 minutos por fuente
     async function obtenerDatos(fuente) {
       const cacheKey = `cache_${fuente}`;
-      const cache = JSON.parse(localStorage.getItem(cacheKey));
-      const ahora = Date.now();
-      const tresMinutos = 3 * 60 * 1000;
+      const cache = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+      const now = Date.now(), ttl = 3 * 60 * 1000;
 
-      if (cache && (ahora - cache.timestamp) < tresMinutos) {
-        return cache.data; // Devuelve cache si no expiró
-      }
+      if (cache && (now - cache.timestamp) < ttl) return cache.data;
 
       const res = await fetch(`/api/currency/${fuente}?apikey=${apikey}`);
+      if (!res.ok) throw new Error('HTTP '+res.status);
       const data = await res.json();
 
-      localStorage.setItem(cacheKey, JSON.stringify({ timestamp: ahora, data }));
+      localStorage.setItem(cacheKey, JSON.stringify({ timestamp: now, data }));
       return data;
     }
 
@@ -110,39 +179,51 @@
         return;
       }
 
-      resultDiv.innerHTML = "Cargando...";
+      resultDiv.innerHTML = `<div class="inline-flex items-center gap-2 text-slate-600">
+        <svg class="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="4" class="opacity-25"/><path d="M4 12a8 8 0 018-8" stroke-width="4" class="opacity-75"/></svg>
+        <span>Cargando…</span>
+      </div>`;
 
       try {
         const data = await obtenerDatos(fuente);
-
-        if (!data.media) {
-          resultDiv.innerHTML = "No se pudo obtener la media.";
-          return;
-        }
+        if (!data.media) { resultDiv.innerHTML = "No se pudo obtener la media."; return; }
 
         const pesosMedia = (montoUSD * data.media).toFixed(2);
-        const pesosBuy = (montoUSD * data.buy).toFixed(2);
-        const beneficio = (pesosMedia - pesosBuy).toFixed(2);
+        const pesosBuy   = (montoUSD * data.buy).toFixed(2);
+        const beneficio  = (pesosMedia - pesosBuy).toFixed(2);
         const porcentaje = (((data.media - data.buy) / data.buy) * 100).toFixed(2);
 
-        resultadoTexto = `${montoUSD} USD → ${pesosMedia} UYU (Media ${fuente.charAt(0).toUpperCase() + fuente.slice(1)})`;
+        resultadoTexto = `${montoUSD} USD → ${pesosMedia} UYU (Media ${fuente.charAt(0).toUpperCase()+fuente.slice(1)})`;
 
         resultDiv.innerHTML = `
-          <p class="text-lg sm:text-xl">Media actual: <strong>${data.media.toFixed(2)} UYU</strong></p>
-          <p class="text-lg sm:text-xl">${montoUSD} USD → <strong>${pesosMedia} UYU</strong></p>
-          <p class="text-sm text-gray-600">Compra: ${data.buy} | Venta: ${data.sell}</p>
-          <p class="mt-2 text-green-600 font-semibold">
-            💰 Beneficio: ${beneficio} UYU (${porcentaje}% mejor que la compra normal)
-          </p>
-          <p class="text-xs text-gray-500 mt-2">Última actualización: ${new Date(data.timestamp).toLocaleString()}</p>
+          <div class="rounded-xl ring-1 ring-brand-200 bg-brand-50 p-4 text-left">
+            <div class="flex items-center justify-between">
+              <p class="text-base sm:text-lg">Media actual</p>
+              <span class="inline-flex items-center rounded-full bg-brand-600 text-white px-2 py-0.5 text-[11px]">Preferencial</span>
+            </div>
+            <p class="mt-1 text-xl sm:text-2xl font-extrabold text-brand-900">${data.media.toFixed(2)} UYU</p>
 
-          <div class="mt-4 flex flex-col gap-3">
-            <button onclick="compartirWhatsApp()" class="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600">
-              📲 Compartir en WhatsApp
-            </button>
-            <button onclick="copiarResultado()" class="w-full bg-gray-200 text-gray-800 py-3 rounded-lg hover:bg-gray-300">
-              📋 Copiar Resultado
-            </button>
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="rounded-lg bg-white ring-1 ring-brand-200 p-3">
+                <div class="text-xs text-slate-500">Monto</div>
+                <div class="text-lg font-semibold">${montoUSD} USD</div>
+              </div>
+              <div class="rounded-lg bg-white ring-1 ring-brand-200 p-3">
+                <div class="text-xs text-slate-500">Resultado</div>
+                <div class="text-lg font-semibold">${pesosMedia} UYU</div>
+              </div>
+              <div class="rounded-lg bg-white ring-1 ring-brand-200 p-3">
+                <div class="text-xs text-slate-500">Compra/Venta</div>
+                <div class="text-sm"><span class="font-medium">C:</span> ${data.buy} &nbsp;|&nbsp; <span class="font-medium">V:</span> ${data.sell}</div>
+              </div>
+            </div>
+
+            <p class="mt-3 text-green-700 font-semibold">
+              💰 Beneficio estimado: ${beneficio} UYU
+              <span class="text-xs text-green-800">(${porcentaje}% vs compra normal)</span>
+            </p>
+
+            <p class="mt-1 text-[12px] text-slate-500">Última actualización: ${new Date(data.timestamp).toLocaleString()}</p>
           </div>
         `;
 
@@ -155,43 +236,43 @@
         mostrarHistorial();
 
       } catch (err) {
-        resultDiv.innerHTML = "Error al obtener datos.";
+        resultDiv.innerHTML = `<span class="text-red-600">Error al obtener datos.</span>`;
       }
     }
 
     function guardarEnHistorial(consulta) {
-      let historial = JSON.parse(localStorage.getItem('calculadoraHistorial')) || [];
+      let historial = JSON.parse(localStorage.getItem('calculadoraHistorial') || '[]');
       historial.unshift(consulta);
       if (historial.length > 3) historial.pop();
       localStorage.setItem('calculadoraHistorial', JSON.stringify(historial));
     }
 
     function mostrarHistorial() {
-      const historial = JSON.parse(localStorage.getItem('calculadoraHistorial')) || [];
-      const historyList = document.getElementById('history-list');
-      if (!historyList) return;
+      const historial = JSON.parse(localStorage.getItem('calculadoraHistorial') || '[]');
+      const ul = document.getElementById('history-list');
+      if (!ul) return;
 
       if (historial.length === 0) {
-        historyList.innerHTML = '<li>No hay consultas recientes.</li>';
+        ul.innerHTML = '<li class="text-slate-500">No hay consultas recientes.</li>';
         return;
       }
 
-      historyList.innerHTML = historial.map(c => {
+      ul.innerHTML = historial.map(c => {
         const fecha = new Date(c.fecha).toLocaleString();
-        return `<li><strong>${c.montoUSD} USD</strong> con <em>${c.fuente.charAt(0).toUpperCase() + c.fuente.slice(1)}</em> — <br>${c.resultado} <br><span class="text-xs text-gray-400">${fecha}</span></li>`;
+        return `<li class="mb-1"><strong>${c.montoUSD} USD</strong> con <em>${c.fuente.charAt(0).toUpperCase()+c.fuente.slice(1)}</em> — ${c.resultado}<br><span class="text-[11px] text-slate-400">${fecha}</span></li>`;
       }).join('');
     }
 
     function compartirWhatsApp() {
-      if (!resultadoTexto) return;
+      if (!resultadoTexto) { toast('Calculá primero', 'error'); return; }
       const url = `https://wa.me/?text=${encodeURIComponent(resultadoTexto)}`;
       window.open(url, "_blank");
     }
 
     function copiarResultado() {
-      if (!resultadoTexto) return;
+      if (!resultadoTexto) { toast('Nada para copiar', 'error'); return; }
       navigator.clipboard.writeText(resultadoTexto);
-      alert("Resultado copiado al portapapeles ✅");
+      toast('Resultado copiado ✅');
     }
   </script>
 </body>
