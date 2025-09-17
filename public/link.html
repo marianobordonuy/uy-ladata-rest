@@ -39,9 +39,9 @@
     </div>
   </header>
 
-  <!-- Contenido -->
-  <main class="max-w-xl w-full mx-auto px-4 sm:px-6 mt-8 sm:mt-12">
-    <div class="bg-white rounded-2xl shadow-xl ring-1 ring-brand-200 p-5 sm:p-7">
+  <!-- Contenido (mismo ancho que index) -->
+  <main class="max-w-4xl w-full mx-auto px-4 sm:px-6 mt-8 sm:mt-12">
+    <div class="bg-white rounded-2xl shadow-xl ring-1 ring-brand-200 p-5 sm:p-7 max-w-2xl mx-auto">
       <div class="text-center">
         <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-brand-900">Calculadora de Cambio</h1>
         <p class="mt-1 text-sm sm:text-base text-brand-800">Basado en la <span class="font-semibold">media</span> de la fuente seleccionada</p>
@@ -59,6 +59,7 @@
           class="w-full p-3 text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-400">
           <option value="itau">Itaú</option>
           <option value="bandes">Bandes</option>
+          <option value="brou">BROU</option>
           <!-- agregá más si querés -->
         </select>
       </div>
@@ -116,7 +117,7 @@
     </div>
   </main>
 
-  <!-- Footer mínimo -->
+  <!-- Footer -->
   <footer class="mt-8 mb-6 text-center text-[11px] sm:text-xs text-slate-500">
     © <span id="year"></span> uyu.exchange — Hecho en Uruguay 🇺🇾
   </footer>
@@ -128,22 +129,14 @@
     const apikey = "admin123";
     let resultadoTexto = "";
 
-    // Mostrar historial al cargar
-    document.addEventListener('DOMContentLoaded', () => {
-      mostrarHistorial();
-    });
+    document.addEventListener('DOMContentLoaded', () => { mostrarHistorial(); });
 
     function validarMonto(monto) {
-      if (isNaN(monto) || monto <= 0) {
-        toast('Por favor ingresá un monto válido mayor a 0.', 'error'); return false;
-      }
-      if (monto > 1000000) {
-        toast('Ingresá un monto menor a 1.000.000.', 'error'); return false;
-      }
+      if (isNaN(monto) || monto <= 0) { toast('Por favor ingresá un monto válido mayor a 0.', 'error'); return false; }
+      if (monto > 1000000) { toast('Ingresá un monto menor a 1.000.000.', 'error'); return false; }
       return true;
     }
 
-    // Mini toast
     function toast(msg, type='info'){
       const el = document.createElement('div');
       el.className = `fixed left-1/2 -translate-x-1/2 top-4 z-50 px-4 py-2 rounded-lg shadow
@@ -174,10 +167,7 @@
       const fuente = document.getElementById("currency-source").value;
       const resultDiv = document.getElementById("result");
 
-      if (!validarMonto(montoUSD)) {
-        resultDiv.innerHTML = "";
-        return;
-      }
+      if (!validarMonto(montoUSD)) { resultDiv.innerHTML = ""; return; }
 
       resultDiv.innerHTML = `<div class="inline-flex items-center gap-2 text-slate-600">
         <svg class="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="4" class="opacity-25"/><path d="M4 12a8 8 0 018-8" stroke-width="4" class="opacity-75"/></svg>
@@ -227,12 +217,7 @@
           </div>
         `;
 
-        guardarEnHistorial({
-          fecha: new Date().toISOString(),
-          montoUSD,
-          fuente,
-          resultado: resultadoTexto
-        });
+        guardarEnHistorial({ fecha: new Date().toISOString(), montoUSD, fuente, resultado: resultadoTexto });
         mostrarHistorial();
 
       } catch (err) {

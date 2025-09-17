@@ -4,6 +4,7 @@ const router = express.Router();
 // Bancos
 const scrapeBandes = require('../scrapers/bandes');
 const scrapeItau = require('../scrapers/itau');
+const scrapeBrou = require('../scrapers/brou');
 
 // Cambios
 const scrapeAeromar = require('../scrapers/aeromar');
@@ -25,6 +26,15 @@ router.get('/bandes', async (req, res) => {
         res.json(data);
     } catch (err) {
         res.status(500).json({ error: 'Error en Bandes' });
+    }
+});
+
+router.get('/brou', async (req, res) => {
+    try {
+        const data = await scrapeBrou();
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: 'Error en Brou' });
     }
 });
 
@@ -131,7 +141,8 @@ router.get('/varlix', async (req, res) => {
 router.get('/all', (req, res) => {
     const banks = [
         { name: 'Bandes', endpoint: '/api/currency/bandes' },
-        { name: 'Itau', endpoint: '/api/currency/itau' }
+        { name: 'Itau', endpoint: '/api/currency/itau' },
+        { name: 'Brou', endpoint: '/api/currency/brou' }
         // Podés agregar más bancos si implementás BROU, BBVA, etc.
     ];
 
@@ -154,7 +165,7 @@ router.get('/all', (req, res) => {
 router.get('/live', async (req, res) => {
     try {
       const results = await Promise.allSettled([
-        scrapeBandes(), scrapeItau(), scrapeAeromar(), scrapeAlter(), scrapeAspen(),
+        scrapeBandes(), scrapeItau(), scrapeBrou(), scrapeAeromar(), scrapeAlter(), scrapeAspen(),
         scrapeCambilex(), scrapeDelta(), scrapeGales(), scrapeIberia(), scrapeVal(), scrapeVarlix()
       ]);
   

@@ -388,8 +388,8 @@
         const allCards = [...document.getElementById('gridBanks').children, ...document.getElementById('gridExchanges').children];
         const card = allCards[idx];
         if (!card || Number.isNaN(usd)) return;
-        const sell = parseFloat(card.getAttribute('data-sell'));
-        const uyus = usd * sell;
+        const buy = parseFloat(card.getAttribute('data-buy'));
+        const uyus = usd * buy;
         document.getElementById('calcResult').textContent = `${usd.toFixed(2)} USD → $ ${uyus.toFixed(2)} UYU`;
         document.getElementById('calcHint').textContent = `Usando tipo de cambio Venta de la fuente seleccionada.`;
       });
