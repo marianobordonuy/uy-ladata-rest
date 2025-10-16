@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calculadora avanzada — uyu.exchange</title>
+  <meta name="description" content="Elegí casa de cambio y generá un código para congelar la cotización." />
+  <link rel="icon" href="/favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: {50:'#f1f8f5',100:'#dcefe6',200:'#c1e1d1',300:'#99ccb3',400:'#6fb896',500:'#4aa87d',600:'#2f9467',700:'#247a56',800:'#1f6247',900:'#1a523c'} } } }
+    };
+  </script>
+</head>
+<body class="bg-gradient-to-b from-white to-brand-50 text-slate-900 antialiased">
+  <!-- Header mínimo -->
+  <header class="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 font-semibold"><span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-white">U</span><span class="hidden sm:inline">uyu.exchange</span></a>
+      <nav class="hidden md:flex items-center gap-6 text-sm">
+        <a href="/" class="hover:text-brand-700">Inicio</a>
+        <a href="/nosotros.html" class="hover:text-brand-700">Nosotros</a>
+        <a href="/developer.html" class="inline-flex items-center rounded-xl bg-brand-600 px-4 py-2 font-medium text-white hover:bg-brand-700">Desarrolladores</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="grid lg:grid-cols-3 gap-8">
+      <section class="lg:col-span-2">
+        <h1 class="text-2xl sm:text-3xl font-bold">Calculadora avanzada</h1>
+        <p class="mt-2 text-slate-600">Elegí fuente, ingresá el monto y generá un código de 6 caracteres para congelar la cotización por el tiempo establecido.</p>
+
+        <form id="formReserva" class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-700">Monto en USD</label>
+            <input id="usd" type="number" min="0" step="0.01" value="100" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-600 focus:ring-brand-600" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700">Casa/Banco</label>
+            <select id="fuente" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-600 focus:ring-brand-600"></select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700">Tiempo de bloqueo</label>
+            <select id="ttl" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-600 focus:ring-brand-600">
+              <option value="15">15 minutos</option>
+              <option value="30" selected>30 minutos</option>
+              <option value="60">60 minutos</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700">Fee (USD) opcional</label>
+            <input id="fee" type="number" min="0" step="0.01" value="0.10" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-600 focus:ring-brand-600" />
+          </div>
+          <div class="sm:col-span-2">
+            <button class="inline-flex items-center rounded-xl bg-brand-600 px-5 py-3 text-white font-semibold hover:bg-brand-700" type="submit">Generar código</button>
+          </div>
+        </form>
+
+        <div id="resultado" class="mt-6 hidden">
+          <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-4 sm:p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h3 class="text-lg font-semibold">Reserva creada</h3>
+                <p class="text-sm text-slate-600">Mostrá este código y QR en el local para validar.</p>
+                <dl class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
+                  <div><dt class="text-slate-500">Código</dt><dd id="r-code" class="font-mono font-semibold text-xl"></dd></div>
+                  <div><dt class="text-slate-500">Fuente</dt><dd id="r-fuente" class="font-semibold"></dd></div>
+                  <div><dt class="text-slate-500">USD</dt><dd id="r-usd" class="font-semibold"></dd></div>
+                  <div><dt class="text-slate-500">UYU calculado</dt><dd id="r-uyu" class="font-semibold"></dd></div>
+                  <div><dt class="text-slate-500">Tipo (Compra)</dt><dd id="r-buy" class="font-semibold"></dd></div>
+                  <div><dt class="text-slate-500">Fee</dt><dd id="r-fee" class="font-semibold"></dd></div>
+                  <div><dt class="text-slate-500">Vence</dt><dd id="r-exp" class="font-semibold"></dd></div>
+                  <div><dt class="text-slate-500">Link de validación</dt><dd class="truncate"><a id="r-link" class="text-brand-700 underline" target="_blank" rel="noopener">Abrir validar.html</a></dd></div>
+                </dl>
+              </div>
+              <div>
+                <div id="qrcode" class="mx-auto"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="lg:col-span-1">
+        <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-4 sm:p-6">
+          <h3 class="text-sm font-semibold text-slate-700">Cotizaciones</h3>
+          <p class="text-xs text-slate-500">Cargadas desde la API o mock.</p>
+          <div id="listaFuentes" class="mt-3 grid grid-cols-1 gap-2"></div>
+          <div class="text-right mt-2 text-xs text-slate-500" id="lastUpdated">–</div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="border-t mx-auto border-slate-200 bg-brand-50/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-xs sm:text-sm text-slate-600 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div>© <span id="year"></span> uyu.exchange — Hecho en Uruguay 🇺🇾</div>
+      <div class="flex items-center gap-4">
+        <a href="/" class="hover:text-brand-700">Inicio</a>
+        <a href="/nosotros.html" class="hover:text-brand-700">Nosotros</a>
+        <a href="/developer.html" class="hover:text-brand-700">Desarrolladores</a>
+        <a href="mailto:api@uyu.exchange" class="hover:text-brand-700">Contacto</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- QR generator (liviano) -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <!-- Lógica compartida -->
+  <script src="/js/app.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const apikey = 'admin123';
+    const API_BASE = '/api';
+
+    // Carga fuentes y llena select + panel lateral
+    (async function init() {
+      const { list, last } = await window.UYU.loadQuotes(API_BASE, apikey);
+      const select = document.getElementById('fuente');
+      const lista = document.getElementById('listaFuentes');
+      select.innerHTML = '';
+      lista.innerHTML = '';
+      list.forEach((it, i) => {
+        const opt = document.createElement('option');
+        opt.value = String(i);
+        opt.textContent = `${it.name} — Compra $ ${it.buy.toFixed(2)} / Venta $ ${it.sell.toFixed(2)}`;
+        select.appendChild(opt);
+
+        const item = document.createElement('div');
+        item.className = 'rounded-xl bg-slate-50 p-3 text-sm';
+        item.innerHTML = `<div class="font-semibold">${it.name}</div><div class="text-slate-600">Compra $ ${it.buy.toFixed(2)} · Venta $ ${it.sell.toFixed(2)}</div>`;
+        lista.appendChild(item);
+      });
+      document.getElementById('lastUpdated').textContent = last;
+    })();
+
+    // Generar reserva
+    document.getElementById('formReserva').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const usd = parseFloat(document.getElementById('usd').value || '0');
+      const idx = parseInt(document.getElementById('fuente').value, 10);
+      const ttlMin = parseInt(document.getElementById('ttl').value, 10);
+      const feeUsd = parseFloat(document.getElementById('fee').value || '0');
+      if (Number.isNaN(usd) || usd <= 0) return alert('Ingresá un monto válido.');
+
+      const fuentes = window.UYU._cachedSources || [];
+      const src = fuentes[idx];
+      if (!src) return alert('Seleccioná una fuente.');
+
+      const code = window.UYU.generateCode(6);
+      const uyus = usd * src.buy;
+      const lockedAt = new Date();
+      const expiresAt = new Date(lockedAt.getTime() + ttlMin * 60 * 1000);
+
+      const payload = {
+        code,
+        sourceName: src.name,
+        buy: src.buy,
+        sell: src.sell,
+        usdAmount: usd,
+        uyus: Number(uyus.toFixed(2)),
+        feeUsd: Number((feeUsd || 0).toFixed(2)),
+        lockedAt: lockedAt.toISOString(),
+        expiresAt: expiresAt.toISOString()
+      };
+
+      try {
+        const res = await fetch('/app/reservas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('No se pudo crear la reserva');
+        const data = await res.json();
+        renderReserva(data);
+      } catch (err) {
+        console.error(err);
+        alert('Error creando la reserva. Ver consola.');
+      }
+    });
+
+    function renderReserva(r) {
+      document.getElementById('resultado').classList.remove('hidden');
+      document.getElementById('r-code').textContent = r.code;
+      document.getElementById('r-fuente').textContent = r.sourceName;
+      document.getElementById('r-usd').textContent = `${r.usdAmount.toFixed ? r.usdAmount.toFixed(2) : r.usdAmount} USD`;
+      document.getElementById('r-uyu').textContent = `$ ${Number(r.uyus).toFixed(2)} UYU`;
+      document.getElementById('r-buy').textContent = `$ ${Number(r.buy).toFixed(2)}`;
+      document.getElementById('r-fee').textContent = r.feeUsd ? `${r.feeUsd.toFixed(2)} USD` : '—';
+      const exp = new Date(r.expiresAt);
+      document.getElementById('r-exp').textContent = exp.toLocaleString('es-UY');
+      const link = `${location.origin}/validar.html?code=${encodeURIComponent(r.code)}`;
+      const a = document.getElementById('r-link');
+      a.href = link;
+      a.textContent = link;
+
+      const qrEl = document.getElementById('qrcode');
+      qrEl.innerHTML = '';
+      new QRCode(qrEl, { text: link, width: 160, height: 160, correctLevel: QRCode.CorrectLevel.M });
+    }
+  </script>
+</body>
+</html>

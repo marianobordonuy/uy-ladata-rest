@@ -54,7 +54,6 @@
           <nav class="hidden md:flex items-center gap-6 text-sm">
             <a href="/" class="hover:text-brand-700">Inicio</a>
             <a href="/nosotros.html" class="hover:text-brand-700">Nosotros</a>
-            <a href="/developer.html" class="inline-flex items-center rounded-xl bg-brand-600 px-4 py-2 font-medium text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-600">Desarrolladores</a>
           </nav>
           <button id="menuBtn" class="md:hidden inline-flex items-center justify-center rounded-lg p-2 hover:bg-slate-100" aria-label="Abrir menú">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M3.75 5.25a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd"/></svg>
@@ -65,7 +64,6 @@
         <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-3 text-sm">
           <a href="/" class="hover:text-brand-700">Inicio</a>
           <a href="/nosotros.html" class="hover:text-brand-700">Nosotros</a>
-          <a href="/developer.html" class="inline-flex items-center rounded-xl bg-brand-600 px-4 py-2 font-medium text-white w-max hover:bg-brand-700">Desarrolladores</a>
         </div>
       </div>
     </header>
@@ -79,14 +77,11 @@
               Comparando pizarras
             </h1>
             <p class="mt-4 text-lg text-slate-600 max-w-prose">
-              Compará compra y venta en bancos y casas de cambio de Uruguay. Calculá rápido en un solo lugar.
+              Compará compra y venta en <span class="font-semibold">casas de cambio</span> de Uruguay. Calculá rápido en un solo lugar.
             </p>
             <div class="mt-6 flex flex-wrap gap-3">
               <a href="#live" class="inline-flex items-center rounded-xl bg-brand-600 px-5 py-3 text-white font-semibold hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-600">
                 Ver cotizaciones ahora
-              </a>
-              <a href="https://developer.uyu.exchange" class="inline-flex items-center rounded-xl px-5 py-3 font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100">
-                ¿Sos developer? API →
               </a>
             </div>
             <p class="mt-3 text-xs text-slate-500">
@@ -98,12 +93,12 @@
               <div class="flex items-center justify-between">
                 <div>
                   <h3 class="text-sm font-semibold text-slate-700">Mejores del momento</h3>
-                  <p class="text-xs text-slate-500">Banco y casa de cambio destacados</p>
+                  <p class="text-xs text-slate-500">Casas de cambio destacadas</p>
                 </div>
                 <span id="lastUpdated" class="text-xs text-slate-500">—</span>
               </div>
-              <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3" id="cardsContainer">
-                <!-- 2 tarjetas: mejor banco y mejor casa de cambio -->
+              <div class="mt-4 grid grid-cols-1 gap-3" id="cardsContainer">
+                <!-- Hero: Top 3 compra y Top 3 venta -->
               </div>
               <div class="mt-4 text-right">
                 <a href="#live" class="text-sm font-medium text-brand-700 hover:underline">Ver todas las fuentes</a>
@@ -120,18 +115,8 @@
         <div class="flex items-end justify-between gap-4">
           <div>
             <h2 class="text-2xl sm:text-3xl font-bold">Cotizaciones en vivo</h2>
-            <p class="text-slate-600 text-sm">Separadas por tipo: Bancos y Casas de cambio.</p>
+            <p class="text-slate-600 text-sm">Casas de cambio de Uruguay.</p>
           </div>
-          <!-- <a href="/calculadora" class="text-sm font-medium text-brand-700 hover:underline">Ir a calculadora avanzada</a> -->
-        </div>
-
-        <!-- Bancos -->
-        <div class="mt-8">
-          <div class="flex items-center justify-between">
-            <h3 class="text-lg sm:text-xl font-semibold">Bancos</h3>
-            <div class="text-xs text-slate-500" id="banksMeta"></div>
-          </div>
-          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" id="gridBanks"></div>
         </div>
 
         <!-- Casas de cambio -->
@@ -172,25 +157,112 @@
       </div>
     </section>
 
+    <!-- Reserva rápida -->
+    <section class="py-12 sm:py-16 border-t border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-3 gap-8 items-start">
+          <div class="lg:col-span-2">
+            <h2 class="text-2xl sm:text-3xl font-bold">Reserva rápida</h2>
+            <p class="mt-2 text-slate-600">
+              Generá un código de 6 caracteres para congelar la cotización por un tiempo limitado.
+            </p>
+
+            <form id="formReservaMini" class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl">
+              <div>
+                <label class="block text-sm font-medium text-slate-700">Monto en USD</label>
+                <input id="resUsd" type="number" min="0" step="0.01" value="100"
+                  class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-600 focus:ring-brand-600"/>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">Fuente</label>
+                <select id="resFuente"
+                  class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-600 focus:ring-brand-600"></select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700">Tiempo de bloqueo</label>
+                <select id="resTtl"
+                  class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-600 focus:ring-brand-600">
+                  <option value="15">15 minutos</option>
+                  <option value="30" selected>30 minutos</option>
+                  <option value="60">60 minutos</option>
+                </select>
+              </div>
+
+              <!-- Fee solo informativo -->
+              <div class="rounded-xl bg-slate-50 ring-1 ring-slate-200 p-3">
+                <div class="text-sm font-medium text-slate-700">Fee de servicio</div>
+                <p class="text-sm text-slate-600">
+                  Fijo y automático: <span id="resFeeInfo" class="font-semibold">$ 0.10 USD</span>
+                </p>
+              </div>
+
+              <div class="sm:col-span-2">
+                <button type="submit"
+                  class="inline-flex items-center rounded-xl bg-brand-600 px-5 py-3 text-white font-semibold hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-600">
+                  Generar código
+                </button>
+              </div>
+            </form>
+
+            <!-- Resultado -->
+            <div id="resResultado" class="mt-6 hidden">
+              <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-4 sm:p-6">
+                <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+                  <div class="min-w-0">
+                    <h3 class="text-lg font-semibold">Reserva creada</h3>
+                    <p class="text-sm text-slate-600">Mostrá este código y QR en el local para validar.</p>
+                    <dl class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
+                      <div><dt class="text-slate-500">Código</dt><dd id="mini-code" class="font-mono font-semibold text-xl"></dd></div>
+                      <div><dt class="text-slate-500">Fuente</dt><dd id="mini-fuente" class="font-semibold truncate"></dd></div>
+                      <div><dt class="text-slate-500">USD</dt><dd id="mini-usd" class="font-semibold"></dd></div>
+                      <div><dt class="text-slate-500">UYU</dt><dd id="mini-uyu" class="font-semibold"></dd></div>
+                      <div><dt class="text-slate-500">Tipo (Compra)</dt><dd id="mini-buy" class="font-semibold"></dd></div>
+                      <div><dt class="text-slate-500">Fee</dt><dd id="mini-fee" class="font-semibold"></dd></div>
+                      <div><dt class="text-slate-500">Vence</dt><dd id="mini-exp" class="font-semibold"></dd></div>
+                      <div class="sm:col-span-2"><dt class="text-slate-500">Link de validación</dt><dd class="truncate"><a id="mini-link" class="text-brand-700 underline" target="_blank" rel="noopener">Abrir validar.html</a></dd></div>
+                    </dl>
+                  </div>
+                  <div class="shrink-0">
+                    <div id="mini-qrcode" class="mx-auto"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Pistas/Confianza -->
+          <aside class="rounded-2xl bg-white ring-1 ring-slate-200 p-4 sm:p-6">
+            <h3 class="text-sm font-semibold text-slate-700">Tips de uso</h3>
+            <ul class="mt-3 space-y-2 text-sm text-slate-600">
+              <li>• Elegí la fuente que más te convenga y generá el código.</li>
+              <li>• El bloqueo expira automáticamente al cumplirse el tiempo.</li>
+              <li>• El fee es fijo y se aplica de forma automática.</li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <!-- /Reserva rápida -->
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
     <!-- Diferenciador -->
     <section class="py-12 sm:py-16 bg-white border-t border-slate-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid sm:grid-cols-3 gap-6">
           <div class="rounded-2xl p-6 ring-1 ring-slate-200 bg-slate-50">
             <div class="text-sm font-semibold">📊 Comparación en un solo lugar</div>
-            <p class="mt-2 text-sm text-slate-600">Bancos y Casas de Cambio de Uruguay, lado a lado.</p>
+            <p class="mt-2 text-sm text-slate-600">Casas de cambio de Uruguay, lado a lado.</p>
           </div>
           <div class="rounded-2xl p-6 ring-1 ring-slate-200 bg-slate-50">
             <div class="text-sm font-semibold">⚡ Datos en tiempo real</div>
-            <p class="mt-2 text-sm text-slate-600">Actualizaciones instantaneas con fuentes verificadas.</p>
+            <p class="mt-2 text-sm text-slate-600">Actualizaciones instantáneas con fuentes verificadas.</p>
           </div>
           <div class="rounded-2xl p-6 ring-1 ring-slate-200 bg-slate-50">
             <div class="text-sm font-semibold">🇺🇾 Hecho en Uruguay</div>
             <p class="mt-2 text-sm text-slate-600">Construido para la realidad local. Simple y confiable.</p>
           </div>
-        </div>
-        <div class="mt-10 text-center">
-          <a href="/developers.html" class="inline-flex items-center rounded-xl bg-brand-600 px-6 py-3 text-white font-semibold hover:bg-brand-700">¿Desarrollador? Usá la API →</a>
         </div>
       </div>
     </section>
@@ -202,201 +274,304 @@
         <div class="flex items-center gap-4">
             <a href="/" class="hover:text-brand-700">Inicio</a>
             <a href="/nosotros.html" class="hover:text-brand-700">Nosotros</a>
-            <a href="/developer.html" class="hover:text-brand-700">Desarrolladores</a>
             <a href="mailto:api@uyu.exchange" class="hover:text-brand-700">Contacto</a>
         </div>
         </div>
     </footer>
 
     <!-- Interactividad mínima & hooks a la API -->
-    <script>
-      // ⚙️ Config pendiente para produccion
-      const apikey = "admin123"; // TODO: reemplazar por variable de entorno / inyectar en build
-      const API_BASE = "/api";   // si servís desde mismo dominio; o usar https://api.uyu.exchange
+<script>
+  // =========================
+  // Config
+  // =========================
+  const apikey = "admin123"; // TODO: inyectar desde env
+  const API_BASE = "/api";
+  const FEE_FIXED_USD = 0.10; // fee fijo (informativo + payload)
 
-      const $ = (sel, el = document) => el.querySelector(sel);
-      const $$ = (sel, el = document) => Array.from(el.querySelectorAll(sel));
+  // =========================
+  // Helpers
+  // =========================
+  const $  = (sel, el = document) => el.querySelector(sel);
+  const $$ = (sel, el = document) => Array.from(el.querySelectorAll(sel));
 
-      // Mobile menu
-      const menuBtn = document.getElementById('menuBtn');
-      const mobileMenu = document.getElementById('mobileMenu');
-      menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+  function formatUY(n) {
+    return new Intl.NumberFormat('es-UY', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
+  }
 
-      // Render helpers
-      function cardTemplate({ name, buy, sell }, badges = {}) {
-        const bestBuy = badges.bestBuy ? '<span class="ml-2 inline-flex items-center rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-[11px]">Mejor compra</span>' : '';
-        const bestSell = badges.bestSell ? '<span class="ml-2 inline-flex items-center rounded-full bg-indigo-100 text-indigo-800 px-2 py-0.5 text-[11px]">Mejor venta</span>' : '';
-        return `
-          <div class="rounded-2xl ring-1 ring-slate-200 bg-white p-4">
-            <div class="flex items-center justify-between">
-              <div class="text-sm font-semibold text-slate-700">${name}</div>
-              <div class="flex items-center">${bestBuy}${bestSell}</div>
-            </div>
-            <dl class="mt-3 grid grid-cols-2 gap-2 text-sm">
-              <div class="rounded-xl bg-slate-50 p-2">
-                <dt class="text-slate-500">Compra</dt>
-                <dd class="font-semibold">$ ${Number(buy).toFixed(2)}</dd>
-              </div>
-              <div class="rounded-xl bg-slate-50 p-2">
-                <dt class="text-slate-500">Venta</dt>
-                <dd class="font-semibold">$ ${Number(sell).toFixed(2)}</dd>
-              </div>
-            </dl>
-          </div>`;
-      }
+  // Detección de bancos (para filtrar)
+  function isBank(name = '') {
+    const n = (name || '').toLowerCase();
+    const bankKeywords = ['brou','república','republica','itau','itaú','santander','scotiabank','bbva','hsbc','bandes','heritage','credicoop'];
+    return bankKeywords.some(k => n.includes(k));
+  }
 
-      function formatUY(n) {
-        return new Intl.NumberFormat('es-UY', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
-      }
+  function cardTemplate({ name, buy, sell }, badges = {}) {
+    const bestBuy  = badges.bestBuy  ? '<span class="ml-2 inline-flex items-center rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-[11px]">Mejor compra</span>' : '';
+    const bestSell = badges.bestSell ? '<span class="ml-2 inline-flex items-center rounded-full bg-indigo-100 text-indigo-800 px-2 py-0.5 text-[11px]">Mejor venta</span>' : '';
+    return `
+      <div class="rounded-2xl ring-1 ring-slate-200 bg-white p-4">
+        <div class="flex items-center justify-between">
+          <div class="text-sm font-semibold text-slate-700">${name}</div>
+          <div class="flex items-center">${bestBuy}${bestSell}</div>
+        </div>
+        <dl class="mt-3 grid grid-cols-2 gap-2 text-sm">
+          <div class="rounded-xl bg-slate-50 p-2">
+            <dt class="text-slate-500">Compra</dt>
+            <dd class="font-semibold">$ ${Number(buy).toFixed(2)}</dd>
+          </div>
+          <div class="rounded-xl bg-slate-50 p-2">
+            <dt class="text-slate-500">Venta</dt>
+            <dd class="font-semibold">$ ${Number(sell).toFixed(2)}</dd>
+          </div>
+        </dl>
+      </div>`;
+  }
 
-      function classifyType(name = '') {
-        const n = (name || '').toLowerCase();
-        const bankKeywords = ['brou','república','republica','itau','itaú','santander','scotiabank','bbva','hsbc','bandes','heritage','credicoop'];
-        return bankKeywords.some(k => n.includes(k)) ? 'bank' : 'exchange';
-      }
+  function computeBest(list) {
+    let bestBuy = { idx: -1, val: -Infinity };
+    let bestSell = { idx: -1, val: Infinity };
+    list.forEach((it, i) => {
+      const b = Number(it.buy), s = Number(it.sell);
+      if (b > bestBuy.val) bestBuy = { idx: i, val: b };
+      if (s < bestSell.val) bestSell = { idx: i, val: s };
+    });
+    return { bestBuy, bestSell };
+  }
 
-      function splitByType(items) {
-        const banks = [], exchanges = [];
-        items.forEach(it => (classifyType(it.name) === 'bank' ? banks : exchanges).push(it));
-        return { banks, exchanges };
-      }
+  function renderExchanges(list) {
+    const grid = document.getElementById('gridExchanges');
+    if (!list.length) {
+      grid.innerHTML = '<div class="col-span-full text-sm text-slate-500">Sin datos.</div>';
+      $('#exchangesMeta').textContent = '';
+      return { bestBuy: {idx:-1,val:0}, bestSell: {idx:-1,val:0} };
+    }
 
-      function computeBest(list) {
-        let bestBuy = { idx: -1, val: -Infinity };
-        let bestSell = { idx: -1, val: Infinity };
-        list.forEach((it, i) => {
-          const b = Number(it.buy), s = Number(it.sell);
-          if (b > bestBuy.val) bestBuy = { idx: i, val: b };
-          if (s < bestSell.val) bestSell = { idx: i, val: s };
-        });
-        return { bestBuy, bestSell };
-      }
+    const { bestBuy, bestSell } = computeBest(list);
 
-      function renderSection(containerId, metaId, list) {
-        const grid = document.getElementById(containerId);
-        if (!list.length) { grid.innerHTML = '<div class="col-span-full text-sm text-slate-500">Sin datos.</div>'; return { bestBuy: {idx:-1,val:0}, bestSell: {idx:-1,val:0} }; }
-        const { bestBuy, bestSell } = computeBest(list);
-        const nodes = list.map((item, i) => {
-          const el = document.createElement('div');
-          el.innerHTML = cardTemplate(item, { bestBuy: i === bestBuy.idx, bestSell: i === bestSell.idx });
-          const node = el.firstElementChild;
-          node.setAttribute('data-buy', item.buy);
-          node.setAttribute('data-sell', item.sell);
-          return node;
-        });
-        grid.replaceChildren(...nodes);
-        const meta = document.getElementById(metaId);
-        meta.textContent = `Mejor compra: $ ${formatUY(bestBuy.val)} · Mejor venta: $ ${formatUY(bestSell.val)}`;
-        return { bestBuy, bestSell };
-      }
+    const nodes = list.map((item, i) => {
+      const el = document.createElement('div');
+      el.innerHTML = cardTemplate(item, { bestBuy: i === bestBuy.idx, bestSell: i === bestSell.idx });
+      return el.firstElementChild;
+    });
+    grid.replaceChildren(...nodes);
 
-      // Shimmer básico mientras carga - para revisar
-      function showLoading() {
-        const skeleton = `
-          <div class="rounded-2xl ring-1 ring-slate-200 bg-white p-4 animate-pulse h-28"></div>
-        `;
-        ['gridBanks','gridExchanges'].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.innerHTML = skeleton + skeleton + skeleton + skeleton;
-        });
-        const select = document.getElementById('sourceSelect');
-        if (select) select.innerHTML = '<option disabled selected>Cargando…</option>';
-        const last = document.getElementById('lastUpdated');
-        if (last) last.textContent = 'Cargando…';
-      }
+    const meta = document.getElementById('exchangesMeta');
+    if (meta) meta.textContent = `Mejor compra: $ ${formatUY(bestBuy.val)} · Mejor venta: $ ${formatUY(bestSell.val)}`;
 
-      // Timeout simple (25s)
-      function fetchWithTimeout(url, ms = 35000) {
-        const ctrl = new AbortController();
-        const t = setTimeout(() => { try { ctrl.abort('timeout'); } catch(_){} }, ms);
-        return fetch(url, { signal: ctrl.signal, cache: 'no-store' })
-          .then(res => { clearTimeout(t); return res; })
-          .catch(err => { clearTimeout(t); throw err; });
-      }
+    return { bestBuy, bestSell };
+  }
 
+  // =========================
+  // Loading & fetch
+  // =========================
+  function showLoading() {
+    const skeleton = `<div class="rounded-2xl ring-1 ring-slate-200 bg-white p-4 animate-pulse h-28"></div>`;
+    const ex = document.getElementById('gridExchanges');
+    if (ex) ex.innerHTML = skeleton + skeleton + skeleton + skeleton;
 
-      // 🔌 Hooks a API (demo con fallback en caso que no carge la API)
-        async function loadQuotes() {
-          showLoading();
-          try {
-            const res = await fetchWithTimeout(`${API_BASE}/currency/live?apikey=${apikey}`, 25000);
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-            const data = await res.json();
-            paintQuotes(data);
-          } catch (err) {
-            const mock = [
-              { name: 'Itaú', buy: 51.20, sell: 53.50 },
-              { name: 'BROU', buy: 50.90, sell: 53.10 },
-              { name: 'Gales', buy: 51.00, sell: 53.30 },
-              { name: 'Cambilex', buy: 51.35, sell: 53.40 },
-            ];
-            paintQuotes(mock);
-            const last = document.getElementById('lastUpdated');
-            if (last) last.textContent = 'Sin conexión (referencia)';
-          }
-        }
+    const select = document.getElementById('sourceSelect');
+    if (select) select.innerHTML = '<option disabled selected>Cargando…</option>';
+    const last = document.getElementById('lastUpdated');
+    if (last) last.textContent = 'Cargando…';
+  }
 
-      function paintQuotes(list) {
-        const normalized = (Array.isArray(list) ? list : [])
-          .filter(item => item && !Number.isNaN(Number(item.buy)) && !Number.isNaN(Number(item.sell)))
-          .map(item => ({
-            name: item.name || item.source || 'Fuente',
-            buy: Number(item.buy),
-            sell: Number(item.sell),
-          }));
-        const { banks, exchanges } = splitByType(normalized);
+  function fetchWithTimeout(url, ms = 35000) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => { try { ctrl.abort('timeout'); } catch(_){} }, ms);
+    return fetch(url, { signal: ctrl.signal, cache: 'no-store' })
+      .then(res => { clearTimeout(t); return res; })
+      .catch(err => { clearTimeout(t); throw err; });
+  }
 
-        const banksBest = renderSection('gridBanks', 'banksMeta', banks);
-        const exchBest = renderSection('gridExchanges', 'exchangesMeta', exchanges);
+  async function loadQuotes() {
+    showLoading();
+    try {
+      const res = await fetchWithTimeout(`${API_BASE}/currency/live?apikey=${apikey}`, 25000);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      paintQuotes(data);
+    } catch (err) {
+      // Mock con exchanges para cerrar visualmente
+      const mock = [
+        { name: 'Cambilex', buy: 51.35, sell: 53.40 },
+        { name: 'Gales', buy: 51.00, sell: 53.30 },
+        { name: 'Varlix', buy: 51.20, sell: 53.45 },
+        { name: 'Indumex', buy: 51.10, sell: 53.35 }
+      ];
+      paintQuotes(mock);
+      const last = document.getElementById('lastUpdated');
+      if (last) last.textContent = 'Sin conexión (referencia)';
+    }
+  }
 
-        // Hero: mostrar mejores de cada tipo (priorizar mejor venta para el público - revisar caso doble)
-        const hero = document.getElementById('cardsContainer');
-        hero.innerHTML = '';
-        const pick = (arr, best) => (best?.idx ?? -1) >= 0 ? arr[best.idx] : null;
-        const bestBank = pick(banks, banksBest?.bestSell) || pick(banks, banksBest?.bestBuy);
-        const bestExch = pick(exchanges, exchBest?.bestSell) || pick(exchanges, exchBest?.bestBuy);
-        const heroNodes = [];
-        if (bestBank) {
-          const wrap = document.createElement('div');
-          wrap.innerHTML = cardTemplate(bestBank, { bestBuy: true, bestSell: true });
-          heroNodes.push(wrap.firstElementChild);
-        }
-        if (bestExch) {
-          const wrap = document.createElement('div');
-          wrap.innerHTML = cardTemplate(bestExch, { bestBuy: true, bestSell: true });
-          heroNodes.push(wrap.firstElementChild);
-        }
-        if (heroNodes.length) hero.replaceChildren(...heroNodes);
+  // =========================
+  // Pintado principal (SOLO exchanges)
+  // =========================
+  function paintQuotes(list) {
+    const normalized = (Array.isArray(list) ? list : [])
+      .filter(item => item && !Number.isNaN(Number(item.buy)) && !Number.isNaN(Number(item.sell)))
+      .map(item => ({ name: item.name || item.source || 'Fuente', buy: Number(item.buy), sell: Number(item.sell) }));
 
+    // Filtrar: SOLO casas de cambio
+    const exchanges = normalized.filter(it => !isBank(it.name));
 
-      // Select de calculadora (usar mezcla - revisar)
-      const select = document.getElementById('sourceSelect');
-      const all = [...banks, ...exchanges];
-      select.innerHTML = all.length
-        ? all.map((it, i) => `<option value="${i}">${it.name}</option>`).join('')
+    // Render grilla de exchanges
+    const exchBest = renderExchanges(exchanges);
+
+    // Hero: EXACTAMENTE 2 cuadrados (mejor compra y mejor venta)
+    const hero = document.getElementById('cardsContainer');
+    hero.innerHTML = '';
+    const tiles = [];
+
+    const bestBuyIdx  = exchBest.bestBuy.idx;
+    const bestSellIdx = exchBest.bestSell.idx;
+
+    if (bestBuyIdx >= 0) {
+      const wrap = document.createElement('div');
+      wrap.innerHTML = cardTemplate(exchanges[bestBuyIdx], { bestBuy: true });
+      tiles.push(wrap.firstElementChild);
+    }
+    if (bestSellIdx >= 0) {
+      const wrap = document.createElement('div');
+      wrap.innerHTML = cardTemplate(exchanges[bestSellIdx], { bestSell: true });
+      tiles.push(wrap.firstElementChild);
+    }
+
+    if (tiles.length) hero.replaceChildren(...tiles);
+
+    // Select de "Calculadora rápida" (SOLO exchanges) + dataset
+    const select = document.getElementById('sourceSelect');
+    select.innerHTML = exchanges.length
+      ? exchanges.map((it, i) => `<option value="${i}">${it.name}</option>`).join('')
+      : '<option disabled selected>Sin datos</option>';
+    // Guardar dataset para la calculadora
+    select.dataset._exchanges = JSON.stringify(exchanges);
+
+    // Reserva rápida: SOLO exchanges
+    const resSelect = document.getElementById('resFuente');
+    if (resSelect) {
+      resSelect.innerHTML = exchanges.length
+        ? exchanges.map((it, i) => `<option value="${i}">${it.name} — Compra $ ${it.buy.toFixed(2)}</option>`).join('')
         : '<option disabled selected>Sin datos</option>';
 
+      const feeInfo = document.getElementById('resFeeInfo');
+      if (feeInfo) feeInfo.textContent = `$ ${FEE_FIXED_USD.toFixed(2)} USD`;
+      resSelect.dataset._all = JSON.stringify(exchanges);
 
-        document.getElementById('lastUpdated').textContent = new Date().toLocaleString('es-UY');
+      const submitBtn = $('#formReservaMini button[type="submit"]');
+      if (submitBtn) submitBtn.disabled = exchanges.length === 0;
+    }
+
+    const last = document.getElementById('lastUpdated');
+    if (last) last.textContent = new Date().toLocaleString('es-UY');
+  }
+
+  // =========================
+  // Interacciones
+  // =========================
+  // Mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+  // Calculadora rápida (USD → UYU) usando SOLO exchanges del dataset (no del grid)
+  document.getElementById('calcForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const usd = parseFloat(document.getElementById('usdAmount').value || '0');
+    const idx = parseInt(document.getElementById('sourceSelect').value, 10);
+    const data = document.getElementById('sourceSelect').dataset._exchanges || '[]';
+    const exchanges = JSON.parse(data);
+    const src = exchanges[idx];
+    if (!src || Number.isNaN(usd)) return;
+    const uyus = usd * Number(src.buy); // Compra: cuánto te pagan por tus USD
+    document.getElementById('calcResult').textContent = `${usd.toFixed(2)} USD → $ ${uyus.toFixed(2)} UYU`;
+    document.getElementById('calcHint').textContent = `Usando tipo de cambio Compra de la casa de cambio seleccionada.`;
+  });
+
+  // Reserva rápida (usa SOLO exchanges guardados en dataset)
+  (function bindReservaMini(){
+    const form = document.getElementById('formReservaMini');
+    if (!form) return;
+
+    function genCode(n=6) {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      let out = '';
+      for (let i = 0; i < n; i++) out += chars[Math.floor(Math.random() * chars.length)];
+      return out;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const usd = parseFloat(document.getElementById('resUsd').value || '0');
+      const idx = parseInt(document.getElementById('resFuente').value, 10);
+      const ttlMin = parseInt(document.getElementById('resTtl').value, 10);
+      if (Number.isNaN(usd) || usd <= 0) return alert('Ingresá un monto válido.');
+
+      const allJson = document.getElementById('resFuente').dataset._all || '[]';
+      const exchanges = JSON.parse(allJson);
+      const src = exchanges[idx];
+      if (!src) return alert('Seleccioná una fuente.');
+
+      const code = genCode(6);
+      const uyus = usd * src.buy;
+      const lockedAt = new Date();
+      const expiresAt = new Date(lockedAt.getTime() + ttlMin * 60 * 1000);
+
+      const payload = {
+        code,
+        sourceName: src.name,
+        buy: src.buy,
+        sell: src.sell,
+        usdAmount: Number(usd.toFixed(2)),
+        uyus: Number(uyus.toFixed(2)),
+        feeUsd: Number(FEE_FIXED_USD.toFixed(2)),
+        lockedAt: lockedAt.toISOString(),
+        expiresAt: expiresAt.toISOString()
+      };
+
+      try {
+        const res = await fetch('/app/reservas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('No se pudo crear la reserva');
+        const data = await res.json();
+        renderReservaMini(data);
+      } catch (err) {
+        console.error(err);
+        alert('Error creando la reserva. Ver consola.');
       }
+    });
 
-      // Calculadora
-      document.getElementById('calcForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const usd = parseFloat(document.getElementById('usdAmount').value || '0');
-        const idx = parseInt(document.getElementById('sourceSelect').value, 10);
-        const allCards = [...document.getElementById('gridBanks').children, ...document.getElementById('gridExchanges').children];
-        const card = allCards[idx];
-        if (!card || Number.isNaN(usd)) return;
-        const buy = parseFloat(card.getAttribute('data-buy'));
-        const uyus = usd * buy;
-        document.getElementById('calcResult').textContent = `${usd.toFixed(2)} USD → $ ${uyus.toFixed(2)} UYU`;
-        document.getElementById('calcHint').textContent = `Usando tipo de cambio Venta de la fuente seleccionada.`;
-      });
+    function renderReservaMini(r) {
+      document.getElementById('resResultado').classList.remove('hidden');
+      document.getElementById('mini-code').textContent = r.code;
+      document.getElementById('mini-fuente').textContent = r.sourceName;
+      document.getElementById('mini-usd').textContent = `${Number(r.usdAmount).toFixed(2)} USD`;
+      document.getElementById('mini-uyu').textContent = `$ ${Number(r.uyus).toFixed(2)} UYU`;
+      document.getElementById('mini-buy').textContent = `$ ${Number(r.buy).toFixed(2)}`;
+      document.getElementById('mini-fee').textContent = `${Number(r.feeUsd).toFixed(2)} USD`;
+      const exp = new Date(r.expiresAt);
+      document.getElementById('mini-exp').textContent = exp.toLocaleString('es-UY');
+      const link = `${location.origin}/validar.html?code=${encodeURIComponent(r.code)}`;
+      const a = document.getElementById('mini-link');
+      a.href = link;
+      a.textContent = link;
 
-      // Init
-      document.getElementById('year').textContent = new Date().getFullYear();
-      loadQuotes();
-    </script>
+      const qrEl = document.getElementById('mini-qrcode');
+      qrEl.innerHTML = '';
+      new QRCode(qrEl, { text: link, width: 160, height: 160, correctLevel: QRCode.CorrectLevel.M });
+    }
+  })();
+
+  // =========================
+  // Init
+  // =========================
+  document.getElementById('year').textContent = new Date().getFullYear();
+  loadQuotes();
+</script>
+
+
   </body>
 </html>

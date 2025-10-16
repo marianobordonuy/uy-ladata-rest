@@ -1,7 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-const url = 'http://cambios.instyledm.com/5/cotizaciones.html';
+const url = 'https://cambiomaiorano.com/';
 
 async function scrapeMaiorano() {
     const response = await axios.get(url);

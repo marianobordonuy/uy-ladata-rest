@@ -1,0 +1,52 @@
+[
+  {
+    "code": "X4K73J",
+    "sourceName": "Brimar",
+    "buy": 38.6,
+    "sell": 41,
+    "usdAmount": 100,
+    "uyus": 3860,
+    "feeUsd": 0.1,
+    "lockedAt": "2025-10-01T23:28:03.691Z",
+    "expiresAt": "2025-10-01T23:58:03.691Z",
+    "status": "validated",
+    "validatedAt": "2025-10-01T23:28:13.535Z"
+  },
+  {
+    "code": "YHSMK6",
+    "sourceName": "Alter",
+    "buy": 38.65,
+    "sell": 41.05,
+    "usdAmount": 100,
+    "uyus": 3865,
+    "feeUsd": 0.1,
+    "lockedAt": "2025-10-01T23:28:21.249Z",
+    "expiresAt": "2025-10-01T23:43:21.249Z",
+    "status": "expired"
+  },
+  {
+    "code": "YLUEXZ",
+    "sourceName": "Bandes",
+    "buy": 39.3,
+    "sell": 40.9,
+    "usdAmount": 100,
+    "uyus": 3930,
+    "feeUsd": 0.1,
+    "lockedAt": "2025-10-12T14:57:03.166Z",
+    "expiresAt": "2025-10-12T15:27:03.166Z",
+    "status": "validated",
+    "validatedAt": "2025-10-12T14:57:09.437Z"
+  },
+  {
+    "code": "QSFGS5",
+    "sourceName": "Brimar",
+    "buy": 38.6,
+    "sell": 41,
+    "usdAmount": 100,
+    "uyus": 3860,
+    "feeUsd": 0.1,
+    "lockedAt": "2025-10-12T15:27:47.605Z",
+    "expiresAt": "2025-10-12T15:57:47.605Z",
+    "status": "pending"
+  }
+]

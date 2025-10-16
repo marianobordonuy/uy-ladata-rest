@@ -1,104 +1,211 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Panel de Administración</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 font-sans">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Panel de Administración — uyu.exchange</title>
+    <meta name="description" content="Acceso al panel de administración de uyu.exchange para editar datos internos como combustibles." />
 
-  <!-- Header mejorado -->
-  <header class="bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow">
-    <div class="max-w-6xl mx-auto flex justify-between items-center px-4 py-4">
-      <h1 class="text-xl sm:text-2xl font-bold">UYU.exchange - API</h1>
+    <!-- Open Graph / SEO -->
+    <meta property="og:title" content="Panel de Administración — uyu.exchange" />
+    <meta property="og:description" content="Herramientas internas para gestionar datos de uyu.exchange." />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_UY" />
+    <meta property="og:url" content="https://uyu.exchange/admin.html" />
+    <meta property="og:image" content="/og-image.png" />
 
-      <div class="flex items-center gap-3">
-        <a href="/docs.html" class="hidden sm:inline-block text-white hover:underline">📄 Docs</a>
-        <a href="/link.html" class="hidden sm:inline-block text-white hover:underline">💵 Promedio Bancario</a>
-        <a href="mailto:api@uyu.exchange" class="hidden sm:inline-block text-white hover:underline">📧 Contacto</a>
-
-        <!-- Botón Admin discreto -->
-        <a href="/admin.html" class="ml-3 bg-white text-blue-600 px-3 py-1 text-sm rounded hover:bg-gray-100 transition">
-          ⚙️ Admin
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <div id="app" class="flex items-center justify-center min-h-screen px-4"></div>
-
-  <script>
-    const app = document.getElementById("app");
-    const correctHash = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9";
-
-    async function sha256(text) {
-      const encoder = new TextEncoder();
-      const data = encoder.encode(text);
-      const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-    }
-
-    if (localStorage.getItem("adminLogged") === "true") {
-      renderAdminPanel();
-    } else {
-      renderLogin();
-    }
-
-    function renderLogin() {
-      app.innerHTML = `
-        <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-sm text-center">
-          <h1 class="text-2xl font-bold text-blue-600 mb-4">🔐 Admin Panel</h1>
-          <p class="text-gray-600 mb-4">Ingrese la contraseña para acceder</p>
-          <input id="password" type="password" placeholder="Contraseña" class="w-full p-2 border rounded mb-4 focus:ring-2 focus:ring-blue-400" />
-          <button id="loginBtn" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Ingresar</button>
-          <div id="errorMsg" class="text-red-500 text-sm mt-3 hidden">⛔ Contraseña incorrecta</div>
-          <div class="mt-4">
-            <a href="/index.html" class="block bg-gray-200 text-gray-800 py-2 rounded-lg hover:bg-gray-300">⬅️ Volver al Inicio</a>
-          </div>
-        </div>
-      `;
-
-      document.getElementById("loginBtn").addEventListener("click", async () => {
-        const password = document.getElementById("password").value;
-        const hash = await sha256(password);
-
-        if (hash === correctHash) {
-          localStorage.setItem("adminLogged", "true");
-          renderAdminPanel();
-        } else {
-          document.getElementById("errorMsg").classList.remove("hidden");
+    <!-- TailwindCSS CDN + paleta del index -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50:  '#f1f8f5',
+                100: '#dcefe6',
+                200: '#c1e1d1',
+                300: '#99ccb3',
+                400: '#6fb896',
+                500: '#4aa87d',
+                600: '#2f9467',
+                700: '#247a56',
+                800: '#1f6247',
+                900: '#1a523c'
+              }
+            }
+          }
         }
-      });
-    }
+      }
+    </script>
 
-    function renderAdminPanel() {
-      app.innerHTML = `
-        <div class="py-10 text-center px-4">
-          <h1 class="text-3xl font-bold text-blue-600 mb-8">Panel de Administración API</h1>
-          <div class="grid grid-cols-1 sm:grid-cols-1 gap-6 max-w-3xl mx-auto">
+    <link rel="icon" href="/favicon.ico" />
+  </head>
+  <body class="bg-gradient-to-b from-white to-brand-50 text-slate-900 antialiased">
 
-            <div class="bg-white shadow rounded-lg p-6 text-left">
-              <h2 class="text-xl font-semibold mb-2">Editor de Combustibles</h2>
-              <p class="text-gray-600 mb-4">Actualizar precios en pesos por litro y fecha. Conversión automática a galones.</p>
-              <a href="/fuel-admin.html" class="block text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Ir al Editor</a>
-            </div>
-
-          </div>
-
-          <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-            <a href="/index.html" class="inline-block bg-gray-200 text-gray-800 px-5 py-2 rounded-lg hover:bg-gray-300">⬅️ Volver al Inicio</a>
-            <button id="logoutBtn" class="inline-block bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600">🔓 Cerrar Sesión</button>
-          </div>
+    <!-- Header (idéntico al index) -->
+    <header class="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <a href="/" class="flex items-center gap-2 font-semibold text-slate-900">
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-white">U</span>
+            <span class="hidden sm:inline">uyu.exchange</span>
+          </a>
+          <nav class="hidden md:flex items-center gap-6 text-sm">
+            <a href="/" class="hover:text-brand-700">Inicio</a>
+            <a href="/nosotros.html" class="hover:text-brand-700">Nosotros</a>
+            <a href="/developer.html" class="hover:text-brand-700">Desarrolladores</a>
+            <a href="/admin.html" class="inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 font-medium text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900">Admin</a>
+          </nav>
+          <button id="menuBtn" class="md:hidden inline-flex items-center justify-center rounded-lg p-2 hover:bg-slate-100" aria-label="Abrir menú">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M3.75 5.25a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd"/></svg>
+          </button>
         </div>
-      `;
+      </div>
+      <div id="mobileMenu" class="md:hidden hidden border-t border-slate-200 bg-white">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-3 text-sm">
+          <a href="/" class="hover:text-brand-700">Inicio</a>
+          <a href="/nosotros.html" class="hover:text-brand-700">Nosotros</a>
+          <a href="/developer.html" class="hover:text-brand-700">Desarrolladores</a>
+          <a href="/admin.html" class="inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 font-medium text-white w-max hover:bg-slate-800">Admin</a>
+        </div>
+      </div>
+    </header>
 
-      document.getElementById("logoutBtn").addEventListener("click", () => {
-        localStorage.removeItem("adminLogged");
+    <!-- Contenido -->
+    <main class="py-10 sm:py-14">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Título y subtítulo -->
+        <div class="max-w-3xl">
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">Panel de Administración</h1>
+          <p class="mt-3 text-slate-600">Acceso protegido para gestionar herramientas internas.</p>
+        </div>
+
+        <!-- App mount -->
+        <div id="app" class="mt-8"></div>
+      </div>
+    </main>
+
+    <!-- Footer (idéntico al index) -->
+    <footer class="border-t mx-auto border-slate-200 bg-brand-50/40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-xs sm:text-sm text-slate-600 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div>© <span id="year"></span> uyu.exchange — Hecho en Uruguay 🇺🇾</div>
+        <div class="flex items-center gap-4">
+          <a href="/" class="hover:text-brand-700">Inicio</a>
+          <a href="/nosotros.html" class="hover:text-brand-700">Nosotros</a>
+          <a href="/developer.html" class="hover:text-brand-700">Desarrolladores</a>
+          <a href="mailto:api@uyu.exchange" class="hover:text-brand-700">Contacto</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+      // Mobile menu
+      const menuBtn = document.getElementById('menuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // ====== APP (login + panel) ======
+      const app = document.getElementById("app");
+
+      // ⚠️ Hash provisto (mantengo el tuyo)
+      const correctHash = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9";
+
+      async function sha256(text) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(text);
+        const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+      }
+
+      // Estado inicial
+      if (localStorage.getItem("adminLogged") === "true") {
+        renderAdminPanel();
+      } else {
         renderLogin();
-      });
-    }
-  </script>
-</body>
+      }
+
+      function renderLogin() {
+        app.innerHTML = `
+          <section class="mt-6">
+            <div class="max-w-sm mx-auto">
+              <div class="rounded-2xl bg-white ring-1 ring-slate-200 shadow-sm p-6">
+                <h2 class="text-xl font-bold text-slate-900 mb-1">🔐 Admin Panel</h2>
+                <p class="text-sm text-slate-600 mb-4">Ingresá la contraseña para continuar.</p>
+                <label class="block text-sm font-medium text-slate-700 mb-1" for="password">Contraseña</label>
+                <input id="password" type="password" placeholder="••••••••" class="w-full rounded-xl border-slate-300 focus:border-brand-600 focus:ring-brand-600" />
+                <button id="loginBtn" class="mt-4 w-full inline-flex items-center justify-center rounded-xl bg-brand-600 px-4 py-2 text-white font-semibold hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-600">Ingresar</button>
+                <p id="errorMsg" class="text-red-600 text-sm mt-3 hidden">⛔ Contraseña incorrecta</p>
+                <div class="mt-4">
+                  <a href="/index.html" class="inline-flex items-center justify-center w-full rounded-xl bg-slate-100 px-4 py-2 text-slate-800 hover:bg-slate-200">⬅️ Volver al Inicio</a>
+                </div>
+              </div>
+            </div>
+          </section>
+        `;
+
+        document.getElementById("loginBtn").addEventListener("click", async () => {
+          const password = document.getElementById("password").value || "";
+          const hash = await sha256(password);
+          if (hash === correctHash) {
+            localStorage.setItem("adminLogged", "true");
+            renderAdminPanel();
+          } else {
+            document.getElementById("errorMsg").classList.remove("hidden");
+          }
+        });
+      }
+
+      function renderAdminPanel() {
+        app.innerHTML = `
+          <section class="mt-6">
+            <div class="max-w-4xl mx-auto">
+              <div class="rounded-2xl bg-white ring-1 ring-slate-200 shadow-sm p-6">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Panel de Administración API</h2>
+                    <p class="text-sm text-slate-600">Actualizar datos internos del sistema.</p>
+                  </div>
+                  <div class="flex gap-2">
+                    <a href="/index.html" class="inline-flex items-center rounded-xl bg-slate-100 px-4 py-2 text-slate-800 hover:bg-slate-200">⬅️ Inicio</a>
+                    <button id="logoutBtn" class="inline-flex items-center rounded-xl bg-red-600 px-4 py-2 text-white hover:bg-red-700">🔓 Cerrar sesión</button>
+                  </div>
+                </div>
+
+                <div class="mt-6 grid grid-cols-1 gap-6">
+                  <!-- Card: Editor de Combustibles -->
+                  <div class="rounded-2xl ring-1 ring-slate-200 bg-slate-50 p-6">
+                    <h3 class="text-lg font-semibold text-slate-900">Editor de Combustibles</h3>
+                    <p class="text-sm text-slate-600 mt-1">
+                      Actualizá precios en pesos por litro y fecha. Conversión automática a galones.
+                    </p>
+                    <a href="/fuel-admin.html" class="mt-4 inline-flex items-center rounded-xl bg-brand-600 px-4 py-2 font-medium text-white hover:bg-brand-700">Ir al Editor</a>
+                  </div>
+
+                  <!-- Espacio para futuros módulos -->
+                  <!--
+                  <div class="rounded-2xl ring-1 ring-slate-200 bg-slate-50 p-6">
+                    <h3 class="text-lg font-semibold text-slate-900">Otro módulo</h3>
+                    <p class="text-sm text-slate-600 mt-1">Descripción corta del módulo.</p>
+                    <a href="#" class="mt-4 inline-flex items-center rounded-xl bg-brand-600 px-4 py-2 font-medium text-white hover:bg-brand-700">Abrir</a>
+                  </div>
+                  -->
+                </div>
+              </div>
+            </div>
+          </section>
+        `;
+
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+          localStorage.removeItem("adminLogged");
+          renderLogin();
+        });
+      }
+    </script>
+  </body>
 </html>

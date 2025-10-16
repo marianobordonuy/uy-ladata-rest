@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Validación de código — uyu.exchange</title>
+  <meta name="description" content="Pantalla para validar códigos de reserva de cotización." />
+  <link rel="icon" href="/favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { brand: {50:'#f1f8f5',100:'#dcefe6',200:'#c1e1d1',300:'#99ccb3',400:'#6fb896',500:'#4aa87d',600:'#2f9467',700:'#247a56',800:'#1f6247',900:'#1a523c'} } } } };
+  </script>
+</head>
+<body class="bg-gradient-to-b from-white to-brand-50 text-slate-900 antialiased">
+  <header class="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 font-semibold"><span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-white">U</span><span class="hidden sm:inline">uyu.exchange</span></a>
+      <span class="text-sm text-slate-600">Validación de código</span>
+      <button id="logoutValid" class="inline-flex items-center rounded-xl bg-slate-600 px-4 py-2 text-white">Salir (Validación)</button>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-4 sm:p-6">
+      <form id="formLookup" class="flex gap-2 items-end">
+        <div class="flex-1">
+          <label class="block text-sm font-medium text-slate-700">Código</label>
+          <input id="code" class="mt-1 w-full rounded-xl border-slate-300 focus:border-brand-600 focus:ring-brand-600 font-mono" placeholder="Ej: A7K3QZ" />
+        </div>
+        <button class="inline-flex items-center rounded-xl bg-brand-600 px-5 py-3 text-white font-semibold hover:bg-brand-700" type="submit">Buscar</button>
+      </form>
+
+      <div id="panel" class="mt-6 hidden">
+        <div class="grid sm:grid-cols-2 gap-4 text-sm">
+          <div class="rounded-xl bg-slate-50 p-3"><div class="text-slate-500">Código</div><div id="v-code" class="font-mono font-semibold text-xl"></div></div>
+          <div class="rounded-xl bg-slate-50 p-3"><div class="text-slate-500">Estado</div><div id="v-status" class="font-semibold"></div></div>
+          <div class="rounded-xl bg-slate-50 p-3"><div class="text-slate-500">Fuente</div><div id="v-fuente" class="font-semibold"></div></div>
+          <div class="rounded-xl bg-slate-50 p-3"><div class="text-slate-500">Compra</div><div id="v-buy" class="font-semibold"></div></div>
+          <div class="rounded-xl bg-slate-50 p-3"><div class="text-slate-500">USD</div><div id="v-usd" class="font-semibold"></div></div>
+          <div class="rounded-xl bg-slate-50 p-3"><div class="text-slate-500">UYU</div><div id="v-uyu" class="font-semibold"></div></div>
+          <div class="rounded-xl bg-slate-50 p-3"><div class="text-slate-500">Fee</div><div id="v-fee" class="font-semibold"></div></div>
+          <div class="rounded-xl bg-slate-50 p-3"><div class="text-slate-500">Vence</div><div id="v-exp" class="font-semibold"></div></div>
+        </div>
+
+        <div class="mt-6 flex flex-wrap gap-3">
+          <button id="btnValidate" class="inline-flex items-center rounded-xl bg-emerald-600 px-5 py-3 text-white font-semibold hover:bg-emerald-700" type="button">Marcar como validada</button>
+          <button id="btnCancel" class="inline-flex items-center rounded-xl bg-slate-600 px-5 py-3 text-white font-semibold hover:bg-slate-700" type="button">Cancelar</button>
+        </div>
+      </div>
+
+      <div id="msg" class="mt-6 text-sm text-slate-600"></div>
+    </div>
+  </main>
+
+  <script src="/js/app.js"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const autoCode = params.get('code');
+    const inp = document.getElementById('code');
+    if (autoCode) inp.value = autoCode;
+
+    async function lookup(c) {
+      const p = document.getElementById('panel');
+      const msg = document.getElementById('msg');
+      p.classList.add('hidden');
+      msg.textContent = 'Buscando…';
+      try {
+        const res = await fetch(`/app/reservas/${encodeURIComponent(c)}`);
+        if (!res.ok) throw new Error('No encontrada');
+        const r = await res.json();
+        msg.textContent = '';
+        p.classList.remove('hidden');
+        render(r);
+      } catch (e) {
+        msg.textContent = 'No se encontró el código o hubo un error.';
+      }
+    }
+
+    function render(r) {
+      document.getElementById('v-code').textContent = r.code;
+      document.getElementById('v-status').textContent = r.status;
+      document.getElementById('v-fuente').textContent = r.sourceName;
+      document.getElementById('v-buy').textContent = `$ ${Number(r.buy).toFixed(2)}`;
+      document.getElementById('v-usd').textContent = `${Number(r.usdAmount).toFixed(2)} USD`;
+      document.getElementById('v-uyu').textContent = `$ ${Number(r.uyus).toFixed(2)} UYU`;
+      document.getElementById('v-fee').textContent = r.feeUsd ? `${Number(r.feeUsd).toFixed(2)} USD` : '—';
+      document.getElementById('v-exp').textContent = new Date(r.expiresAt).toLocaleString('es-UY');
+
+      // habilitar/deshabilitar acciones
+      const canAct = r.status === 'pending' && new Date(r.expiresAt).getTime() > Date.now();
+      document.getElementById('btnValidate').disabled = !canAct;
+      document.getElementById('btnCancel').disabled = !canAct;
+    }
+
+    document.getElementById('formLookup').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const c = (document.getElementById('code').value || '').trim();
+      if (!c) return;
+      lookup(c);
+    });
+
+    document.getElementById('btnValidate').addEventListener('click', async () => {
+      const c = (document.getElementById('code').value || '').trim();
+      if (!c) return;
+      try {
+        const res = await fetch(`/app/reservas/${encodeURIComponent(c)}/validate`, { method: 'POST' });
+        const r = await res.json();
+        render(r);
+      } catch (e) { alert('Error al validar'); }
+    });
+
+    document.getElementById('btnCancel').addEventListener('click', async () => {
+      const c = (document.getElementById('code').value || '').trim();
+      if (!c) return;
+      try {
+        const res = await fetch(`/app/reservas/${encodeURIComponent(c)}/cancel`, { method: 'POST' });
+        const r = await res.json();
+        render(r);
+      } catch (e) { alert('Error al cancelar'); }
+    });
+
+    document.getElementById('logoutValid')?.addEventListener('click', async () => {
+      await fetch('/admin/valid/logout', { method: 'POST' });
+      location.href = '/admin.html?need=valid';
+    });
+
+    if (autoCode) lookup(autoCode);
+  </script>
+</body>
+</html>
