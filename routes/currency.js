@@ -8,21 +8,17 @@ const scrapeBrou = require('../scrapers/brou');
 
 // Cambios
 const scrapeAeromar = require('../scrapers/aeromar');
-const scrapeAlter = require('../scrapers/alter');
 const scrapeAspen = require('../scrapers/aspen');
-const scrapeBacacay = require('../scrapers/bacacay');
+const scrapeAvenida = require('../scrapers/avenida');
 const scrapeBrimar = require('../scrapers/brimar');
 const scrapeCambilex = require('../scrapers/cambilex');
-//const scrapeCambio18 = require('../scrapers/cambio18');
+const scrapeCambio18 = require('../scrapers/cambio18');
 const scrapeDelta = require('../scrapers/delta');
+const scrapeEurodracma = require('../scrapers/eurodracma');
 const scrapeGales = require('../scrapers/gales');
 const scrapeIberia = require('../scrapers/iberia');
-const scrapeMaiorano = require('../scrapers/maiorano');
-//const scrapeNixus = require('../scrapers/nixus');
 const scrapeVal = require('../scrapers/val');
 const scrapeVarlix = require('../scrapers/varlix');
-const scrapeBacacaySF = require('../scrapers/bacacay');
-// Opcional: otros que tenías comentados o en lista
 
 // 📌 Endpoints individuales
 router.get('/bandes', async (req, res) => {
@@ -61,15 +57,6 @@ router.get('/aeromar', async (req, res) => {
     }
 });
 
-router.get('/alter', async (req, res) => {
-    try {
-        const data = await scrapeAlter();
-        res.json(data);
-    } catch (err) {
-        res.status(500).json({ error: 'Error en Alter' });
-    }
-});
-
 router.get('/aspen', async (req, res) => {
     try {
         const data = await scrapeAspen();
@@ -79,12 +66,12 @@ router.get('/aspen', async (req, res) => {
     }
 });
 
-router.get('/bacacay', async (req, res) => {
+router.get('/avenida', async (req, res) => {
     try {
-        const data = await scrapeBacacay();
+        const data = await scrapeAvenida();
         res.json(data);
     } catch (err) {
-        res.status(500).json({ error: 'Error en Bacacay' });
+        res.status(500).json({ error: 'Error en Avenida' });
     }
 });
 
@@ -124,6 +111,15 @@ router.get('/delta', async (req, res) => {
     }
 });
 
+router.get('/eurodracma', async (req, res) => {
+    try {
+        const data = await scrapeEurodracma();
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: 'Error en Eurodracma' });
+    }
+});
+
 router.get('/gales', async (req, res) => {
     try {
         const data = await scrapeGales();
@@ -139,24 +135,6 @@ router.get('/iberia', async (req, res) => {
         res.json(data);
     } catch (err) {
         res.status(500).json({ error: 'Error en Iberia' });
-    }
-});
-
-router.get('/maiorano', async (req, res) => {
-    try {
-        const data = await scrapeMaiorano();
-        res.json(data);
-    } catch (err) {
-        res.status(500).json({ error: 'Error en Maiorano' });
-    }
-});
-
-router.get('/nixus', async (req, res) => {
-    try {
-        const data = await scrapeNixus();
-        res.json(data);
-    } catch (err) {
-        res.status(500).json({ error: 'Error en Nixus' });
     }
 });
 
@@ -191,17 +169,19 @@ router.get('/all', (req, res) => {
         { name: 'Aeromar', endpoint: '/api/currency/aeromar' },
         { name: 'Alter', endpoint: '/api/currency/alter' },
         { name: 'Aspen', endpoint: '/api/currency/aspen' },
+        { name: 'Avenida', endpoint: '/api/currency/avenida' },
         { name: 'Bacacay', endpoint: '/api/currency/bacacay' },
         { name: 'Brimar', endpoint: '/api/currency/brimar' },
         { name: 'Cambilex', endpoint: '/api/currency/cambilex' },
-        //{ name: 'Cambio 18', endpoint: '/api/currency/cambio18' },
+        { name: 'Cambio 18', endpoint: '/api/currency/cambio18' },
         { name: 'Delta', endpoint: '/api/currency/delta' },
+        { name: 'Eurodracma', endpoint: '/api/currency/eurodracma' },
         { name: 'Gales', endpoint: '/api/currency/gales' },
         { name: 'Iberia', endpoint: '/api/currency/iberia' },
         { name: 'Maiorano', endpoint: '/api/currency/maiorano' },
         //{ name: 'nixus', endpoint: '/api/currency/nixus' },
         { name: 'Val', endpoint: '/api/currency/val' },
-        { ame: 'Varlix', endpoint: '/api/currency/varlix' }
+        { name: 'Varlix', endpoint: '/api/currency/varlix' }
     ];
 
     res.json({ banks, exchanges });
@@ -210,8 +190,8 @@ router.get('/all', (req, res) => {
 router.get('/live', async (req, res) => {
     try {
       const results = await Promise.allSettled([
-        scrapeBandes(), scrapeItau(), scrapeBrou(), scrapeAeromar(), scrapeAspen(), scrapeBrimar(),
-        scrapeCambilex(), scrapeDelta(), scrapeGales(), scrapeIberia(), scrapeVal(), scrapeVarlix()
+        scrapeBandes(), scrapeItau(), scrapeBrou(), scrapeAeromar(), scrapeAspen(), scrapeAvenida(), scrapeBrimar(),
+        scrapeCambilex(), scrapeCambio18(), scrapeDelta(), scrapeEurodracma(), scrapeGales(), scrapeIberia(), scrapeVal(), scrapeVarlix()
       ]);
   
       const data = results

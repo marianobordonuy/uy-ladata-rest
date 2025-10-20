@@ -1,17 +1,19 @@
 const express = require('express');
+//const scrapeCambio18 = require('../scrapers/cambio18');
 const router = express.Router();
 
 const sources = {
   bandes: require('../scrapers/bandes'),
   itau: require('../scrapers/itau'),
   aeromar: require('../scrapers/aeromar'),
-  alter: require('../scrapers/alter'),
   aspen: require('../scrapers/aspen'),
+  avenida: require('../scrapers/avenida'),
   cambilex: require('../scrapers/cambilex'),
+  cambio18: require('../scrapers/cambio18'),
   delta: require('../scrapers/delta'),
+  eurodracma: require('../scrapers/eurodracma'),
   gales: require('../scrapers/gales'),
   iberia: require('../scrapers/iberia'),
-  maiorano: require('../scrapers/maiorano'),
   val: require('../scrapers/val'),
   varlix: require('../scrapers/varlix')
 };
