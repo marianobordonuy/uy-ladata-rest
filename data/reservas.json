@@ -47,6 +47,74 @@
     "feeUsd": 0.1,
     "lockedAt": "2025-10-12T15:27:47.605Z",
     "expiresAt": "2025-10-12T15:57:47.605Z",
-    "status": "pending"
+    "status": "expired",
+    "updatedAt": "2025-11-07T02:07:14.861Z"
+  },
+  {
+    "code": "EE93MN",
+    "sourceName": "Brimar",
+    "buy": 38.6,
+    "sell": 41,
+    "usdAmount": 1000,
+    "uyus": 38600,
+    "feeUsd": 0.1,
+    "lockedAt": "2025-11-07T02:33:18.782Z",
+    "expiresAt": "2025-11-07T03:03:18.782Z",
+    "status": "validated",
+    "validatedAt": "2025-11-07T02:33:26.269Z"
+  },
+  {
+    "code": "2AJPWB",
+    "sourceName": "Cambio 18",
+    "buy": 38.45,
+    "sell": 40.85,
+    "usdAmount": 1000,
+    "uyus": 38450,
+    "feeUsd": 0.1,
+    "lockedAt": "2025-11-07T02:33:32.758Z",
+    "expiresAt": "2025-11-07T02:48:32.758Z",
+    "status": "expired",
+    "updatedAt": "2025-11-07T02:49:22.248Z"
+  },
+  {
+    "code": "BA22MT",
+    "sourceName": "Brimar",
+    "buy": 38.6,
+    "sell": 41,
+    "usdAmount": 100200,
+    "uyus": 3867720,
+    "feeUsd": 0.1,
+    "lockedAt": "2025-11-07T14:53:59.644Z",
+    "expiresAt": "2025-11-07T15:23:59.644Z",
+    "status": "expired",
+    "updatedAt": "2025-11-07T15:24:22.012Z"
+  },
+  {
+    "code": "VSYWCF",
+    "mode": "usd2uyu",
+    "sourceName": "Eurodracma",
+    "buy": 38.6,
+    "sell": 41,
+    "usdAmount": 500,
+    "uyus": 19300,
+    "feeUsd": 0.1,
+    "lockedAt": "2025-11-08T01:54:02.164Z",
+    "expiresAt": "2025-11-08T02:24:02.164Z",
+    "status": "expired",
+    "updatedAt": "2025-11-08T02:24:20.973Z"
+  },
+  {
+    "code": "FTPBK2",
+    "mode": "uyu2usd",
+    "sourceName": "Brimar",
+    "buy": 38.6,
+    "sell": 41,
+    "usdAmount": 13.61,
+    "uyus": 558,
+    "feeUsd": 0.1,
+    "lockedAt": "2025-11-08T01:54:11.706Z",
+    "expiresAt": "2025-11-08T02:09:11.706Z",
+    "status": "validated",
+    "validatedAt": "2025-11-08T01:54:15.746Z"
   }
 ]

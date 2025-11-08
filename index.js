@@ -124,6 +124,13 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ error: 'Error interno' });
 });
 
+
+// 🔹 NUEVO: reservas (sin prefijo extra porque ya usan /app/reservas)
+app.use(require('./routes/reservas'));
+
+const reservasRouter = require('./routes/reservas');
+app.use('/app/reservas', reservasRouter);
+
 // ---------- Arranque ----------
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

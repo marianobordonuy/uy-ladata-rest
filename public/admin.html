@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Panel de Administración — uyu.exchange</title>
-    <meta name="description" content="Acceso al panel de administración de uyu.exchange para editar datos internos como combustibles." />
+    <title>Admin — Validación de reservas · uyu.exchange</title>
+    <meta name="description" content="Panel para validar reservas (códigos) generadas en uyu.exchange." />
 
-    <!-- Open Graph / SEO -->
-    <meta property="og:title" content="Panel de Administración — uyu.exchange" />
-    <meta property="og:description" content="Herramientas internas para gestionar datos de uyu.exchange." />
+    <!-- Open Graph -->
+    <meta property="og:title" content="Admin — Validación de reservas · uyu.exchange" />
+    <meta property="og:description" content="Panel para validar reservas (códigos) generadas en uyu.exchange." />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_UY" />
     <meta property="og:url" content="https://uyu.exchange/admin.html" />
     <meta property="og:image" content="/og-image.png" />
 
-    <!-- TailwindCSS CDN + paleta del index -->
+    <!-- TailwindCSS + paleta del sitio -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -22,16 +22,8 @@
           extend: {
             colors: {
               brand: {
-                50:  '#f1f8f5',
-                100: '#dcefe6',
-                200: '#c1e1d1',
-                300: '#99ccb3',
-                400: '#6fb896',
-                500: '#4aa87d',
-                600: '#2f9467',
-                700: '#247a56',
-                800: '#1f6247',
-                900: '#1a523c'
+                50:'#f1f8f5',100:'#dcefe6',200:'#c1e1d1',300:'#99ccb3',400:'#6fb896',
+                500:'#4aa87d',600:'#2f9467',700:'#247a56',800:'#1f6247',900:'#1a523c'
               }
             }
           }
@@ -43,7 +35,7 @@
   </head>
   <body class="bg-gradient-to-b from-white to-brand-50 text-slate-900 antialiased">
 
-    <!-- Header (idéntico al index) -->
+    <!-- Header -->
     <header class="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-slate-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
@@ -54,7 +46,6 @@
           <nav class="hidden md:flex items-center gap-6 text-sm">
             <a href="/" class="hover:text-brand-700">Inicio</a>
             <a href="/nosotros.html" class="hover:text-brand-700">Nosotros</a>
-            <a href="/developer.html" class="hover:text-brand-700">Desarrolladores</a>
             <a href="/admin.html" class="inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 font-medium text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900">Admin</a>
           </nav>
           <button id="menuBtn" class="md:hidden inline-flex items-center justify-center rounded-lg p-2 hover:bg-slate-100" aria-label="Abrir menú">
@@ -66,7 +57,6 @@
         <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-3 text-sm">
           <a href="/" class="hover:text-brand-700">Inicio</a>
           <a href="/nosotros.html" class="hover:text-brand-700">Nosotros</a>
-          <a href="/developer.html" class="hover:text-brand-700">Desarrolladores</a>
           <a href="/admin.html" class="inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 font-medium text-white w-max hover:bg-slate-800">Admin</a>
         </div>
       </div>
@@ -75,11 +65,9 @@
     <!-- Contenido -->
     <main class="py-10 sm:py-14">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        <!-- Título y subtítulo -->
         <div class="max-w-3xl">
-          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">Panel de Administración</h1>
-          <p class="mt-3 text-slate-600">Acceso protegido para gestionar herramientas internas.</p>
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">Panel de Validación</h1>
+          <p class="mt-3 text-slate-600">Ingresá un código o elegí una reserva reciente para **abrir la página de validación**.</p>
         </div>
 
         <!-- App mount -->
@@ -87,32 +75,33 @@
       </div>
     </main>
 
-    <!-- Footer (idéntico al index) -->
+    <!-- Footer -->
     <footer class="border-t mx-auto border-slate-200 bg-brand-50/40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-xs sm:text-sm text-slate-600 flex flex-col sm:flex-row items-center justify-between gap-2">
         <div>© <span id="year"></span> uyu.exchange — Hecho en Uruguay 🇺🇾</div>
         <div class="flex items-center gap-4">
           <a href="/" class="hover:text-brand-700">Inicio</a>
           <a href="/nosotros.html" class="hover:text-brand-700">Nosotros</a>
-          <a href="/developer.html" class="hover:text-brand-700">Desarrolladores</a>
           <a href="mailto:api@uyu.exchange" class="hover:text-brand-700">Contacto</a>
+          <a href="/admin.html" class="hover:text-brand-700 font-medium">🧭 Admin</a>
+          <a href="/admin-operaciones.html" class="hover:text-brand-700 font-medium">📊 Operaciones</a>
         </div>
       </div>
     </footer>
 
     <!-- Scripts -->
     <script>
-      // Mobile menu
+      // ========= Shell básico =========
+      const $ = (sel, el = document) => el.querySelector(sel);
+      document.getElementById('year').textContent = new Date().getFullYear();
       const menuBtn = document.getElementById('menuBtn');
       const mobileMenu = document.getElementById('mobileMenu');
       menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-      document.getElementById('year').textContent = new Date().getFullYear();
-
-      // ====== APP (login + panel) ======
+      // ========= Auth simple (hash) =========
       const app = document.getElementById("app");
 
-      // ⚠️ Hash provisto (mantengo el tuyo)
+      // Mismo hash que tu admin anterior:
       const correctHash = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9";
 
       async function sha256(text) {
@@ -123,7 +112,6 @@
         return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
       }
 
-      // Estado inicial
       if (localStorage.getItem("adminLogged") === "true") {
         renderAdminPanel();
       } else {
@@ -132,10 +120,10 @@
 
       function renderLogin() {
         app.innerHTML = `
-          <section class="mt-6">
+          <section>
             <div class="max-w-sm mx-auto">
               <div class="rounded-2xl bg-white ring-1 ring-slate-200 shadow-sm p-6">
-                <h2 class="text-xl font-bold text-slate-900 mb-1">🔐 Admin Panel</h2>
+                <h2 class="text-xl font-bold text-slate-900 mb-1">🔐 Acceso Admin</h2>
                 <p class="text-sm text-slate-600 mb-4">Ingresá la contraseña para continuar.</p>
                 <label class="block text-sm font-medium text-slate-700 mb-1" for="password">Contraseña</label>
                 <input id="password" type="password" placeholder="••••••••" class="w-full rounded-xl border-slate-300 focus:border-brand-600 focus:ring-brand-600" />
@@ -148,7 +136,6 @@
             </div>
           </section>
         `;
-
         document.getElementById("loginBtn").addEventListener("click", async () => {
           const password = document.getElementById("password").value || "";
           const hash = await sha256(password);
@@ -161,50 +148,151 @@
         });
       }
 
+      // ========= Panel principal =========
       function renderAdminPanel() {
         app.innerHTML = `
-          <section class="mt-6">
-            <div class="max-w-4xl mx-auto">
-              <div class="rounded-2xl bg-white ring-1 ring-slate-200 shadow-sm p-6">
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                  <div>
-                    <h2 class="text-2xl font-bold text-slate-900">Panel de Administración API</h2>
-                    <p class="text-sm text-slate-600">Actualizar datos internos del sistema.</p>
-                  </div>
-                  <div class="flex gap-2">
-                    <a href="/index.html" class="inline-flex items-center rounded-xl bg-slate-100 px-4 py-2 text-slate-800 hover:bg-slate-200">⬅️ Inicio</a>
-                    <button id="logoutBtn" class="inline-flex items-center rounded-xl bg-red-600 px-4 py-2 text-white hover:bg-red-700">🔓 Cerrar sesión</button>
-                  </div>
+          <section class="space-y-6">
+            <!-- Barra superior -->
+            <div class="rounded-2xl bg-white ring-1 ring-slate-200 shadow-sm p-6">
+              <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div>
+                  <h2 class="text-2xl font-bold text-slate-900">Validación de reservas</h2>
+                  <p class="text-sm text-slate-600">Abrí el link de validación para confirmar o rechazar la transacción.</p>
                 </div>
-
-                <div class="mt-6 grid grid-cols-1 gap-6">
-                  <!-- Card: Editor de Combustibles -->
-                  <div class="rounded-2xl ring-1 ring-slate-200 bg-slate-50 p-6">
-                    <h3 class="text-lg font-semibold text-slate-900">Editor de Combustibles</h3>
-                    <p class="text-sm text-slate-600 mt-1">
-                      Actualizá precios en pesos por litro y fecha. Conversión automática a galones.
-                    </p>
-                    <a href="/fuel-admin.html" class="mt-4 inline-flex items-center rounded-xl bg-brand-600 px-4 py-2 font-medium text-white hover:bg-brand-700">Ir al Editor</a>
-                  </div>
-
-                  <!-- Espacio para futuros módulos -->
-                  <!--
-                  <div class="rounded-2xl ring-1 ring-slate-200 bg-slate-50 p-6">
-                    <h3 class="text-lg font-semibold text-slate-900">Otro módulo</h3>
-                    <p class="text-sm text-slate-600 mt-1">Descripción corta del módulo.</p>
-                    <a href="#" class="mt-4 inline-flex items-center rounded-xl bg-brand-600 px-4 py-2 font-medium text-white hover:bg-brand-700">Abrir</a>
-                  </div>
-                  -->
+                <div class="flex gap-2">
+                  <a href="/index.html" class="inline-flex items-center rounded-xl bg-slate-100 px-4 py-2 text-slate-800 hover:bg-slate-200">⬅️ Inicio</a>
+                  <button id="logoutBtn" class="inline-flex items-center rounded-xl bg-red-600 px-4 py-2 text-white hover:bg-red-700">🔓 Cerrar sesión</button>
                 </div>
+              </div>
+            </div>
+
+            <!-- Validador rápido -->
+            <div class="rounded-2xl ring-1 ring-slate-200 bg-slate-50 p-6">
+              <h3 class="text-lg font-semibold text-slate-900">Validador rápido</h3>
+              <p class="text-sm text-slate-600 mt-1">Pegá el código de 6 caracteres o escaneá un QR y abrí la página de validación.</p>
+              <div class="mt-4 grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3 max-w-xl">
+                <input id="codeInput" type="text" maxlength="6" placeholder="Código (ej: 7K4X2M)" class="uppercase tracking-wider font-mono text-lg w-full rounded-xl border-slate-300 focus:border-brand-600 focus:ring-brand-600 px-4 py-2" />
+                <button id="openBtn" class="inline-flex items-center justify-center rounded-xl bg-brand-600 px-5 py-2.5 text-white font-semibold hover:bg-brand-700">Abrir validar</button>
+              </div>
+              <p class="text-xs text-slate-500 mt-2">Atajo: Enter para abrir.</p>
+            </div>
+
+            <!-- Reservas recientes -->
+            <div class="rounded-2xl ring-1 ring-slate-200 bg-white p-6">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <h3 class="text-lg font-semibold text-slate-900">Reservas recientes</h3>
+                  <p class="text-sm text-slate-600">Últimas 20 (si el endpoint está disponible).</p>
+                </div>
+                <button id="reloadBtn" class="inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 text-white hover:bg-slate-800">⟳ Actualizar</button>
+              </div>
+              <div id="recentContainer" class="mt-4">
+                <div class="text-sm text-slate-500">Cargando…</div>
               </div>
             </div>
           </section>
         `;
 
+        // Eventos
         document.getElementById("logoutBtn").addEventListener("click", () => {
           localStorage.removeItem("adminLogged");
           renderLogin();
         });
+
+        const codeInput = document.getElementById("codeInput");
+        const openBtn = document.getElementById("openBtn");
+        function openValidation() {
+          const code = (codeInput.value || "").trim().toUpperCase();
+          if (!/^[A-Z0-9]{6}$/.test(code)) {
+            alert("Ingresá un código válido de 6 caracteres.");
+            return;
+          }
+          // Abrir la página de validación
+          const url = `/validar.html?code=${encodeURIComponent(code)}`;
+          window.location.href = url;
+        }
+        openBtn.addEventListener("click", openValidation);
+        codeInput.addEventListener("keydown", (e) => { if (e.key === "Enter") openValidation(); });
+
+        // Cargar reservas recientes
+        document.getElementById("reloadBtn").addEventListener("click", loadRecent);
+        loadRecent();
+      }
+
+      async function loadRecent() {
+        const box = document.getElementById("recentContainer");
+        if (!box) return;
+        box.innerHTML = `<div class="text-sm text-slate-500">Cargando…</div>`;
+
+        try {
+          // Ajustá este endpoint a lo que tengas disponible en tu API:
+          // ideal: GET /app/reservas?limit=20
+          const res = await fetch(`/app/reservas?limit=20`, { cache: 'no-store' });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const items = await res.json();
+
+          if (!Array.isArray(items) || items.length === 0) {
+            box.innerHTML = `<div class="text-sm text-slate-500">No hay reservas recientes.</div>`;
+            return;
+          }
+
+          // Render tabla simple
+          const rows = items.map((r) => {
+            const exp = r.expiresAt ? new Date(r.expiresAt) : null;
+            const vence = exp ? exp.toLocaleString('es-UY') : '—';
+            const estado = r.status || (exp && exp.getTime() < Date.now() ? 'expirada' : 'activa');
+            const uyus = typeof r.uyus === 'number' ? r.uyus.toFixed(2) : '—';
+            const usd = typeof r.usdAmount === 'number' ? r.usdAmount.toFixed(2) : '—';
+            const fuente = r.sourceName || r.source || '—';
+            const code = r.code || '—';
+            const link = `/validar.html?code=${encodeURIComponent(code)}`;
+            return `
+              <tr class="hover:bg-slate-50">
+                <td class="px-3 py-2 font-mono text-sm">${code}</td>
+                <td class="px-3 py-2 text-sm">${fuente}</td>
+                <td class="px-3 py-2 text-sm text-right">${usd}</td>
+                <td class="px-3 py-2 text-sm text-right">$ ${uyus}</td>
+                <td class="px-3 py-2 text-sm">${vence}</td>
+                <td class="px-3 py-2">
+                  <span class="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] ring-1
+                    ${estado === 'activa' ? 'bg-green-50 text-green-800 ring-green-200' :
+                      estado === 'expirada' ? 'bg-slate-50 text-slate-700 ring-slate-200' :
+                      'bg-amber-50 text-amber-800 ring-amber-200'}">${estado}</span>
+                </td>
+                <td class="px-3 py-2 text-right">
+                  <a href="${link}" class="inline-flex items-center rounded-xl bg-brand-600 px-3 py-1.5 text-white text-sm font-medium hover:bg-brand-700">Validar</a>
+                </td>
+              </tr>
+            `;
+          }).join('');
+
+          box.innerHTML = `
+            <div class="overflow-x-auto">
+              <table class="min-w-full text-left">
+                <thead class="text-xs uppercase tracking-wide text-slate-500">
+                  <tr>
+                    <th class="px-3 py-2">Código</th>
+                    <th class="px-3 py-2">Fuente</th>
+                    <th class="px-3 py-2 text-right">USD</th>
+                    <th class="px-3 py-2 text-right">UYU</th>
+                    <th class="px-3 py-2">Vence</th>
+                    <th class="px-3 py-2">Estado</th>
+                    <th class="px-3 py-2 text-right">Acción</th>
+                  </tr>
+                </thead>
+                <tbody class="text-sm">${rows}</tbody>
+              </table>
+            </div>
+          `;
+        } catch (err) {
+          console.error(err);
+          box.innerHTML = `
+            <div class="rounded-xl bg-slate-50 ring-1 ring-slate-200 p-4">
+              <div class="text-sm text-slate-600">
+                No se pudieron cargar las reservas recientes. Podés validar manualmente arriba con el código.
+              </div>
+            </div>`;
+        }
       }
     </script>
   </body>
